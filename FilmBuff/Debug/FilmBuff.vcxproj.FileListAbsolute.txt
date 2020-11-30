@@ -1,0 +1,2 @@
+C:\Users\KnockCloud\Documents\GitHub\FilmBuff\FilmBuff\Debug\FilmBuff.exe
+C:\Users\KnockCloud\Documents\GitHub\FilmBuff\FilmBuff\Debug\FilmBuff.pdb
