@@ -12,9 +12,9 @@ class ProgramManager
 {
 	private:
 	//file paths
-	static const string moviesPath = "Database/IMDb movies.csv";
-	static const string namesPath = "Database/IMDb names.csv";
-	static const string principalsPath = "Database/IMDb title_principals.csv";
+	static const string moviesPath;
+	static const string namesPath;
+	static const string principalsPath;
 
 	//Data Structures
 	unordered_map<string, Movie> Movies; //key: IMDb Movie ID, value: Movie instance
