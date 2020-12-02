@@ -155,5 +155,5 @@ void ProgramManager::initialize()
 		this->Personnel_to_Movies[principalData[1]].insert(principalData[0]);
 	}
 
-	cout << "Connections Loaded!" << endl;
+	cout << "Connections Loaded!" << endl << endl;
 }
