@@ -15,148 +15,283 @@ ProgramManager::ProgramManager() {
 void ProgramManager::initialize()
 {
 	Timer t;
-	fstream movieStream(moviesPath);
-	fstream nameStream(namesPath);
-	fstream principalStream(principalsPath);
+	loadMovies();
+	loadPersonnel();
+	loadPrincipals();
+	cout << "Time elapsed: " << t.elapsed() << " seconds\n" << endl;
+}
+
+void ProgramManager::loadMovies()
+{
+	fstream fileStream(moviesPath);
 	string entry;
 
-	cout << "Initializing..." << endl;
-
-	//Processes movie database and adds to map
-	while(getline(movieStream, entry))
+	while (getline(fileStream, entry))//processes all movies
 	{
-		vector<string> movieData;
-		bool inQuotes = false;
-		bool doubleQuotes = false;
-		string tempString = "";
-		
-		for (int i = 0; i < entry.length(); i++) {
-			if (inQuotes == false && entry[i] == '"') {
-				inQuotes = true;
-				continue;
-			}
-			else if (inQuotes == true && entry[i] == '"') {
-				if (doubleQuotes == true) {
-					tempString += '"';
-					doubleQuotes = false;
-					continue;
-				}
-				
-				if (entry[i + 1] == '"') {
-					doubleQuotes = true;
-					continue;
-				}
-				
-				movieData.push_back(tempString);
-				tempString = "";
-				inQuotes = false;
-				i++;
-				continue;
-			} else if (inQuotes == false && entry[i] == ',') {
-				movieData.push_back(tempString);
-				tempString = "";
-				continue;
-			}
+		/*file format: IMDb movie ID, title, year, genre, description, score
+		The CSV files follows RFC 4180 standard, https://en.wikipedia.org/wiki/Comma-separated_values#Basic_rules, from what I can tell
+		*/
 
-			tempString += entry[i];
+		const int numOfFields = 6;
+		stringstream entryStream(entry);
+		string columns[numOfFields]; //IMDb_ID, title, year, genre, description, scoreString;
+		double score;
+
+		//fill columns array with field data
+		for (int i = 0; i < numOfFields; ++i)
+		{
+			if (entryStream.peek() != '\"')//field isn't quoted
+			{
+				if (i != numOfFields - 1)//not last field
+				{
+					getline(entryStream, columns[i], ',');
+				}
+				else
+				{
+					getline(entryStream, columns[i]);
+				}
+			}
+			else//field is quoted
+			{
+				entryStream.get();//discard first quote
+				char temp;
+
+				while (entryStream.get(temp))
+				{
+					if (temp == '\"')//quote can signify the start of an actual quote or the end of field
+					{
+						entryStream.get(temp);
+
+						if (temp == '\"')//actual quote
+						{
+							columns[i] += '\"';
+						}
+						else//end of field
+						{
+							break;
+						}
+					}
+					else//normal character to be added
+					{
+						columns[i] += temp;
+					}
+				}
+			}
 		}
 
-		movieData.push_back(tempString);
-		Movie* m = new Movie(movieData[1], movieData[3], movieData[4], stoi(movieData[2]), stof(movieData[5]));
-		this->Movies[movieData[0]] = m;
+		try
+		{
+			score = stod(columns[5]);
+			Movie movie(columns[1], stoi(columns[2]), columns[3], columns[4], score);
+			addMovie(columns[0], movie);
+		}
+		catch (invalid_argument ex)
+		{
+			cout << "Error" << ex.what() << endl;
+			cerr << "Couldn't load movies" << endl;
+		}
+		catch (exception ex)
+		{
+			cout << "something went wrong" << endl;
+		}
 	}
+}
 
-	cout << "Movies Loaded!" << endl;
+void ProgramManager::loadPersonnel()
+{
+	fstream fileStream(namesPath);
+	string entry;
 
-	//Processes personnel database and adds to map
-	while (getline(nameStream, entry)) {
-		vector<string> nameData;
-		bool inQuotes = false;
-		bool doubleQuotes = false;
-		string tempString = "";
+	while (getline(fileStream, entry))//processes all personnel
+	{
+		/*file format: IMDb personnel ID, name
+		The CSV files follows RFC 4180 standard, https://en.wikipedia.org/wiki/Comma-separated_values#Basic_rules, from what I can tell
+		*/
 
-		for (int i = 0; i < entry.length(); i++) {
-			if (inQuotes == false && entry[i] == '"') {
-				inQuotes = true;
-				continue;
-			}
-			else if (inQuotes == true && entry[i] == '"') {
-				if (doubleQuotes == true) {
-					tempString += '"';
-					doubleQuotes = false;
-					continue;
+		const int numOfFields = 2;
+		stringstream entryStream(entry);
+		string columns[numOfFields];
+
+		//fill columns array with field data
+		for (int i = 0; i < numOfFields; ++i)
+		{
+			if (entryStream.peek() != '\"')//field isn't quoted
+			{
+				if (i != numOfFields - 1)//not last field
+				{
+					getline(entryStream, columns[i], ',');
 				}
-
-				if (entry[i + 1] == '"') {
-					doubleQuotes = true;
-					continue;
+				else
+				{
+					getline(entryStream, columns[i]);
 				}
-
-				nameData.push_back(tempString);
-				tempString = "";
-				inQuotes = false;
-				i++;
-				continue;
 			}
-			else if (inQuotes == false && entry[i] == ',') {
-				nameData.push_back(tempString);
-				tempString = "";
-				continue;
-			}
+			else//field is quoted
+			{
+				entryStream.get();//discard first quote
+				char temp;
 
-			tempString += entry[i];
+				while (entryStream.get(temp))
+				{
+					if (temp == '\"')//quote can signify the start of an actual quote or the end of field
+					{
+						entryStream.get(temp);
+
+						if (temp == '\"')//actual quote
+						{
+							columns[i] += '\"';
+						}
+						else//end of field
+						{
+							break;
+						}
+					}
+					else//normal character to be added
+					{
+						columns[i] += temp;
+					}
+				}
+			}
 		}
 
-		nameData.push_back(tempString);
-		this->Personnel[nameData[0]] = nameData[0];
+		try
+		{
+			addPersonnel(columns[0], columns[1]);
+		}
+		catch (exception ex)
+		{
+			cerr << "Couldn't load personnel";
+		}
 	}
+}
 
-	cout << "Personnel Loaded!" << endl;
+void ProgramManager::loadPrincipals()
+{
+	fstream fileStream(namesPath);
+	string entry;
 
-	//Processes principals database and adds to both maps
-	while (getline(principalStream, entry)) {
-		vector<string> principalData;
-		bool inQuotes = false;
-		bool doubleQuotes = false;
-		string tempString = "";
+	while (getline(fileStream, entry))//processes all personnel
+	{
+		/*file format: IMDb movie ID, IMDb personnel ID
+		The CSV files follows RFC 4180 standard, https://en.wikipedia.org/wiki/Comma-separated_values#Basic_rules
+		*/
 
-		for (int i = 0; i < entry.length(); i++) {
-			if (inQuotes == false && entry[i] == '"') {
-				inQuotes = true;
-				continue;
-			}
-			else if (inQuotes == true && entry[i] == '"') {
-				if (doubleQuotes == true) {
-					tempString += '"';
-					doubleQuotes = false;
-					continue;
+		const int numOfFields = 2;
+		stringstream entryStream(entry);
+		string columns[numOfFields];
+
+		//fill columns array with field data
+		for (int i = 0; i < numOfFields; ++i)
+		{
+			if (entryStream.peek() != '\"')//field isn't quoted
+			{
+				if (i != numOfFields - 1)//not last field
+				{
+					getline(entryStream, columns[i], ',');
 				}
-
-				if (entry[i + 1] == '"') {
-					doubleQuotes = true;
-					continue;
+				else
+				{
+					getline(entryStream, columns[i]);
 				}
-
-				principalData.push_back(tempString);
-				tempString = "";
-				inQuotes = false;
-				i++;
-				continue;
 			}
-			else if (inQuotes == false && entry[i] == ',') {
-				principalData.push_back(tempString);
-				tempString = "";
-				continue;
-			}
+			else//field is quoted
+			{
+				entryStream.get();//discard first quote
+				char temp;
 
-			tempString += entry[i];
+				while (entryStream.get(temp))
+				{
+					if (temp == '\"')//quote can signify the start of an actual quote or the end of field
+					{
+						entryStream.get(temp);
+
+						if (temp == '\"')//actual quote
+						{
+							columns[i] += '\"';
+						}
+						else//end of field
+						{
+							break;
+						}
+					}
+					else//normal character to be added
+					{
+						columns[i] += temp;
+					}
+				}
+			}
 		}
 
-		principalData.push_back(tempString);
-		this->Movie_to_Personnel[principalData[0]].insert(principalData[1]);
-		this->Personnel_to_Movies[principalData[1]].insert(principalData[0]);
+		try
+		{
+			addConnection(columns[0], columns[1]);
+		}
+		catch (exception ex)
+		{
+			cerr << "Couldn't load personnel";
+		}
+	}
+}
+
+void ProgramManager::addMovie(const string& movieID, const Movie& movie)
+{
+	Movies[movieID] = movie;
+}
+
+void ProgramManager::addPersonnel(const string& personnelID, const string& name)
+{
+	Personnel[personnelID] = name;
+}
+
+void ProgramManager::addConnection(const string& movieID, const string& personnelID)
+{
+	Movie_to_Personnel[movieID].insert(personnelID);
+	Personnel_to_Movies[personnelID].insert(movieID);
+}
+
+bool ProgramManager::doesMovieExist(const string& movieID) const
+{
+	return Movies.find(movieID) != Movies.end();
+}
+
+bool ProgramManager::doesPersonnelExist(const string& movieID) const
+{
+	return Personnel.find(movieID) != Personnel.end();
+}
+
+unordered_set<string> ProgramManager::searchMovies(const string& movieName) {
+	unordered_set<string> results;
+
+	for (auto i = this->Movies.begin(); i != Movies.end(); i++) {
+		Movie m = i->second;
+
+		if (i->second.getTitle().find(movieName) != std::string::npos) {
+			cout << (results.size() + 1) << ". " << i->second.getTitle() << " (" << i->second.getYear() << ")" << endl;
+			cout << "Genre: " << i->second.getGenre() << endl;
+			cout << "Description: " << i->second.getDescription() << endl << endl;
+
+			results.insert(i->first);
+		}
 	}
 
-	cout << "Connections Loaded!" << endl << endl;
-	std::cout << "Time elapsed: " << t.elapsed() << " seconds\n" << endl;
+	return results;
+}
+
+unordered_set<string> ProgramManager::searchPersonnel(const string& personnelName) {
+	unordered_set<string> results;
+
+	for (auto i = this->Personnel.begin(); i != Personnel.end(); i++) {
+		if (personnelName == i->second) {
+			results = Personnel_to_Movies.at(i->first);
+			break;
+		}
+	}
+
+	/*for (auto i = results.begin(); i != results.end(); i++) {
+		cout << (results.size() + 1) << ". " << Movies.at(*i)->getTitle() << " (" << this->Movies.at(*i)->getYear() << ")" << endl;
+		cout << "Genre: " << this->Movies.at(*i)->getGenre() << endl;
+		cout << "Description: " << this->Movies.at(*i)->getDescription() << endl << endl;
+	}*/
+
+	return results;
 }

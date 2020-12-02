@@ -8,7 +8,7 @@ Movie::Movie() {
 	this->score = 0;
 }
 
-Movie::Movie(string _title, string _genre, string _description, int _year, double _score) {
+Movie::Movie(string _title, int _year, string _genre, string _description, double _score) {
 	this->title = _title;
 	this->genre = _genre;
 	this->description = _description;

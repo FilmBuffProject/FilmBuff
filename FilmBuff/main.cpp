@@ -9,6 +9,7 @@ int main() {
 	db.initialize();
 	bool cont = true;
 	int option = 0;
+	string search = "";
 
 	cout << "Welcome to FilmBuff! ";
 
@@ -16,22 +17,39 @@ int main() {
 	{
 		cout << "Select menu item:" << endl << "0. Exit FilmBuff" << endl << "1. Search Movie" << endl << "2. Search Personnel" << endl;
 		cin >> option;
+		cin.ignore();
 
 		switch (option)
 		{
 		default:
+		{
 			cout << "none" << endl;
 			break;
+		}
 		case 0:
+		{
 			cout << "Thanks for visiting!" << endl;
 			cont = false;
 			break;
-		case 1:
-			cout << "movie" << endl;
+		}
+		case 1: 
+		{		
+			cout << "Please enter a keyword to search for: ";
+			getline(cin, search);
+
+			unordered_set<string> movies = db.searchMovies(search);
+
 			break;
-		case 2:
-			cout << "personnel" << endl;
+		}
+		case 2: 
+		{
+			cout << "Please enter an actor to search for: ";
+			getline(cin, search);
+
+			unordered_set<string> movies = db.searchPersonnel(search);
+
 			break;
+		}
 		}
 	}
 
