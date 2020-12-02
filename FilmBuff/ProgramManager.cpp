@@ -320,3 +320,7 @@ void ProgramManager::addPreferences(const string& movieID) {
 		}
 	}
 }
+
+void ProgramManager::findRecommendations() const {
+	
+}
