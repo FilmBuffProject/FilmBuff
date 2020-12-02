@@ -266,8 +266,8 @@ bool ProgramManager::doesPersonnelExist(const string& movieID) const
 	return Personnel.find(movieID) != Personnel.end();
 }
 
-unordered_set<string> ProgramManager::searchMovies(const string& movieName) {
-	unordered_set<string> results;
+vector<string> ProgramManager::searchMovies(const string& movieName) {
+	vector<string> results;
 
 	for (auto i = this->Movies.begin(); i != Movies.end(); i++) {
 		Movie m = i->second;
@@ -277,20 +277,23 @@ unordered_set<string> ProgramManager::searchMovies(const string& movieName) {
 			cout << "Genre: " << i->second.getGenre() << endl;
 			cout << "Description: " << i->second.getDescription() << endl << endl;
 
-			results.insert(i->first);
+			results.push_back(i->first);
 		}
 	}
 
 	return results;
 }
 
-unordered_set<string> ProgramManager::searchPersonnel(const string& personnelName) {
-	unordered_set<string> results;
+vector<string> ProgramManager::searchPersonnel(const string& personnelName) {
+	vector<string> results;
 	int count = 1;
 
 	for (auto i = this->Personnel.begin(); i != Personnel.end(); i++) {
 		if (personnelName == i->second) {
-			results = Personnel_to_Movies.at(i->first);
+			for (auto j = Personnel_to_Movies.at(i->first).begin(); j != Personnel_to_Movies.at(i->first).end(); j++) {
+				results.push_back(*j);
+			}
+			
 			break;
 		}
 	}
@@ -304,4 +307,20 @@ unordered_set<string> ProgramManager::searchPersonnel(const string& personnelNam
 	}
 
 	return results;
+}
+
+void ProgramManager::addPreferences(const string& movieID) {
+	auto inserted = this->moviePreferences.insert(movieID);
+	
+	if (inserted.second == true) {
+		unordered_set<string> m = this->Movie_to_Personnel.at(movieID);
+
+		for (auto i = m.begin(); i != m.end(); i++) {
+			this->personnelPreferences[*i] += 1;
+		}
+	}
+}
+
+void ProgramManager::findRecommendations() const {
+	
 }

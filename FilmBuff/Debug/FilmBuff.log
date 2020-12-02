@@ -1,2 +1,11 @@
 ﻿  ProgramManager.cpp
+  main.cpp
+C:\Users\becfl\Documents\Data Structures Final Project\FilmBuff\FilmBuff\main.cpp(47,22): warning C4018: '<': signed/unsigned mismatch
+C:\Users\becfl\Documents\Data Structures Final Project\FilmBuff\FilmBuff\main.cpp(49,25): warning C4018: '<': signed/unsigned mismatch
+C:\Users\becfl\Documents\Data Structures Final Project\FilmBuff\FilmBuff\main.cpp(63,23): warning C4018: '<': signed/unsigned mismatch
+C:\Users\becfl\Documents\Data Structures Final Project\FilmBuff\FilmBuff\main.cpp(84,22): warning C4018: '<': signed/unsigned mismatch
+C:\Users\becfl\Documents\Data Structures Final Project\FilmBuff\FilmBuff\main.cpp(86,25): warning C4018: '<': signed/unsigned mismatch
+C:\Users\becfl\Documents\Data Structures Final Project\FilmBuff\FilmBuff\main.cpp(100,23): warning C4018: '<': signed/unsigned mismatch
+  Generating Code...
+  LINK : C:\Users\becfl\Documents\Data Structures Final Project\FilmBuff\FilmBuff\Debug\FilmBuff.exe not found or not built by the last incremental link; performing full link
   FilmBuff.vcxproj -> C:\Users\becfl\Documents\Data Structures Final Project\FilmBuff\FilmBuff\Debug\FilmBuff.exe
