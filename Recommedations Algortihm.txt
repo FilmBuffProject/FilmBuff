@@ -5,4 +5,7 @@
 	the movies appear
 5. Remove all movies in possible recommendations that are already present in preference list
 6. Rank the recommendations that made it out based on the following priorities (not finalized):
-	6a. (k0 * #ofTimes Recommend) + (k1 * IMDB weight)
+	6a. Rank(n) = (k0 * #ofTimes Recommend) + (k1 * IMDB weight(n))
+7. If number of preferences is too low to get a good recommendation (i.e. below a certain number x), add in some movies with
+	high IMDb weights.
+8. Return list of recommendations in ranking order
