@@ -258,20 +258,20 @@ void ProgramManager::loadPreferred()
 	fileStream.close();
 
 	//write preferred personnel
-	fstream.open(personnelPreferencesPath);
+	fileStream.open(personnelPreferencesPath);
 	string personnelEntry;
 
-	getline(fstream, personnelEntry);
+	getline(fileStream, personnelEntry);
 	int numOfPersonnel = stoi(personnelEntry);
 
 	for(; numOfPersonnel != 0; --numOfPersonnel)
 	{
 		string personnelID, appearancesString;
-		getline(fStream, personnelEntry, '\"');//discard first quote
-		getline(fstream, personnelID, ',');//personnelID
-		getline(fstream, appearancesString, '\"');//numOfAppearances and last quote
+		getline(fileStream, personnelEntry, '\"');//discard first quote
+		getline(fileStream, personnelID, ',');//personnelID
+		getline(fileStream, appearancesString, '\"');//numOfAppearances and last quote
 
-		personnelPreferences[personnelID] = stoi[appearancesString];
+		personnelPreferences[personnelID] = stoi(appearancesString);
 	}
 }
 
@@ -299,19 +299,19 @@ void ProgramManager::writePreferred()
 	fileStream.open(personnelPreferencesPath);
 	auto personnelIter = personnelPreferences.begin();
 
-	fileStream << personnelPreferences.size << endl;
+	fileStream << personnelPreferences.size() << endl;
 
-	if(personnelIter != moviePreferences.end())
+	if(personnelIter != personnelPreferences.end())
 	{
-		fileStream << '\"' << (*personnelIter).first() << ',' << (*personnelIter).second() << '\"';
+		fileStream << '\"' << (*personnelIter).first << ',' << (*personnelIter).second << '\"';
 		++personnelIter;
 	}
 
-	for(; personnelIter != moviePreferences.end(); ++personnelIter)
+	for(; personnelIter != personnelPreferences.end(); ++personnelIter)
 	{
 
 		fileStream << ",";
-		fileStream << '\"' << (*personnelIter).first() << ',' << (*personnelIter).second() << '\"';
+		fileStream << '\"' << (*personnelIter).first << ',' << (*personnelIter).second << '\"';
 	}
 }
 
