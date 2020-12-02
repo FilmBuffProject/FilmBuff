@@ -9,7 +9,7 @@ private:
 	string genre;
 	string description;
 	int year;
-	int score;
+	double score;
 
 public:
 	Movie();
@@ -18,6 +18,6 @@ public:
 	string getGenre();
 	string getDescription();
 	int getYear();
-	int getScore();
+	double getScore();
 };
 

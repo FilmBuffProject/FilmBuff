@@ -32,6 +32,6 @@ int Movie::getYear() {
 	return this->year;
 }
 
-int Movie::getScore() {
+double Movie::getScore() {
 	return this->score;
 }
