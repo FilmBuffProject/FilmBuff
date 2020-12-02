@@ -1,6 +1,2 @@
-﻿  Movie.cpp
-  ProgramManager.cpp
-C:\Users\becfl\Documents\Data Structures Final Project\FilmBuff\FilmBuff\ProgramManager.cpp(26,21): warning C4018: '<': signed/unsigned mismatch
-  main.cpp
-  Generating Code...
-  FilmBuff.vcxproj -> C:\Users\becfl\Documents\Data Structures Final Project\FilmBuff\FilmBuff\Debug\FilmBuff.exe
+﻿  ProgramManager.cpp
+  FilmBuff.vcxproj -> C:\Users\KnockCloud\Documents\GitHub\FilmBuff\FilmBuff\Debug\FilmBuff.exe

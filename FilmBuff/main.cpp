@@ -4,10 +4,9 @@
 #include "ProgramManager.h"
 using namespace std;
 
-int main() {
-	ProgramManager db;
-	db.initialize();
-	cout << "test";
+int main() 
+{
+	ProgramManager manager;
 
-	return 0;
+	manager.initialize();
 }
