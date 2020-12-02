@@ -1,4 +1,6 @@
-﻿  ProgramManager.cpp
+﻿  Movie.cpp
+  ProgramManager.cpp
 C:\Users\becfl\Documents\Data Structures Final Project\FilmBuff\FilmBuff\ProgramManager.cpp(26,21): warning C4018: '<': signed/unsigned mismatch
-C:\Users\becfl\Documents\Data Structures Final Project\FilmBuff\FilmBuff\ProgramManager.cpp(58,90): warning C4244: 'argument': conversion from 'double' to 'int', possible loss of data
+  main.cpp
+  Generating Code...
   FilmBuff.vcxproj -> C:\Users\becfl\Documents\Data Structures Final Project\FilmBuff\FilmBuff\Debug\FilmBuff.exe

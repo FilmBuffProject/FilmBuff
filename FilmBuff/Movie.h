@@ -13,7 +13,7 @@ private:
 
 public:
 	Movie();
-	Movie(string _title, string _genre, string _description, int _year, int _score);
+	Movie(string _title, string _genre, string _description, int _year, double _score);
 	string getTitle();
 	string getGenre();
 	string getDescription();

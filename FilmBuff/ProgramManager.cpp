@@ -55,7 +55,7 @@ void ProgramManager::initialize()
 		}
 
 		movieData.push_back(tempString);
-		Movie* m = new Movie(movieData[1], movieData[3], movieData[4], stoi(movieData[2]), stod(movieData[5]));
+		Movie* m = new Movie(movieData[1], movieData[3], movieData[4], stoi(movieData[2]), stof(movieData[5]));
 		this->Movies[movieData[0]] = m;
 	}
 
