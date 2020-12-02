@@ -89,11 +89,11 @@ void ProgramManager::loadMovies()
 		catch (invalid_argument ex)
 		{
 			cout << "Error" << ex.what() << endl;
-			cerr << "Couldn't load movies" << endl;
+			cerr << "Couldn't Load Movies." << endl;
 		}
 		catch (exception ex)
 		{
-			cout << "something went wrong" << endl;
+			cout << "Something went wrong." << endl;
 		}
 	}
 
@@ -163,7 +163,7 @@ void ProgramManager::loadPersonnel()
 		}
 		catch (exception ex)
 		{
-			cerr << "Couldn't load personnel";
+			cerr << "Couldn't Load Personnel.";
 		}
 	}
 
@@ -233,7 +233,7 @@ void ProgramManager::loadPrincipals()
 		}
 		catch (exception ex)
 		{
-			cerr << "Couldn't load personnel";
+			cerr << "Couldn't Load Connections.";
 		}
 	}
 
@@ -286,6 +286,7 @@ unordered_set<string> ProgramManager::searchMovies(const string& movieName) {
 
 unordered_set<string> ProgramManager::searchPersonnel(const string& personnelName) {
 	unordered_set<string> results;
+	int count = 1;
 
 	for (auto i = this->Personnel.begin(); i != Personnel.end(); i++) {
 		if (personnelName == i->second) {
@@ -294,11 +295,13 @@ unordered_set<string> ProgramManager::searchPersonnel(const string& personnelNam
 		}
 	}
 
-	/*for (auto i = results.begin(); i != results.end(); i++) {
-		cout << (results.size() + 1) << ". " << this->Movies[i]->getTitle() << " (" << this->Movies.at(*i)->getYear() << ")" << endl;
-		cout << "Genre: " << this->Movies.at(*i)->getGenre() << endl;
-		cout << "Description: " << this->Movies.at(*i)->getDescription() << endl << endl;
-	}*/
+	for (auto i = results.begin(); i != results.end(); i++) {
+		cout << count << ". " << this->Movies.at(*i).getTitle() << " (" << this->Movies.at(*i).getYear() << ")" << endl;
+		cout << "Genre: " << this->Movies.at(*i).getGenre() << endl;
+		cout << "Description: " << this->Movies.at(*i).getDescription() << endl << endl;
+
+		count++;
+	}
 
 	return results;
 }
