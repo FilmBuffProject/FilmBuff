@@ -7,9 +7,11 @@
 const string ProgramManager::moviesPath = "../Database/IMDb movies.csv";
 const string ProgramManager::namesPath = "../Database/IMDb names.csv";
 const string ProgramManager::principalsPath = "../Database/IMDb title_principals.csv";
+const string ProgramManager::moviePreferencesPath = "../Database/preferredMovies";
+const string ProgramManager::personnelPreferencesPath = "../Database/preferredPersonnel";
 
-ProgramManager::ProgramManager() {
-
+ProgramManager::ProgramManager() 
+{
 }
 
 void ProgramManager::initialize()
@@ -19,6 +21,7 @@ void ProgramManager::initialize()
 	loadMovies();
 	loadPersonnel();
 	loadPrincipals();
+	loadPreferred();
 	cout << "Time elapsed: " << t.elapsed() << " seconds\n" << endl;
 }
 
@@ -238,6 +241,78 @@ void ProgramManager::loadPrincipals()
 	}
 
 	cout << "Loaded Connections!" << endl;
+}
+
+void ProgramManager::loadPreferred()
+{
+	//read preferred movies
+	fstream fileStream(moviePreferencesPath, ios_base::in);
+
+	string movieID;
+
+	while(getline(fileStream, movieID, ','))
+	{
+		moviePreferences.insert(movieID);
+	}
+
+	fileStream.close();
+
+	//write preferred personnel
+	fstream.open(personnelPreferencesPath);
+	string personnelEntry;
+
+	getline(fstream, personnelEntry);
+	int numOfPersonnel = stoi(personnelEntry);
+
+	for(; numOfPersonnel != 0; --numOfPersonnel)
+	{
+		string personnelID, appearancesString;
+		getline(fStream, personnelEntry, '\"');//discard first quote
+		getline(fstream, personnelID, ',');//personnelID
+		getline(fstream, appearancesString, '\"');//numOfAppearances and last quote
+
+		personnelPreferences[personnelID] = stoi[appearancesString];
+	}
+}
+
+void ProgramManager::writePreferred()
+{
+	//write preferred movies
+	fstream fileStream(moviePreferencesPath, ios_base::out | ios_base::trunc);
+	auto movieIter = moviePreferences.begin();
+
+	if(movieIter != moviePreferences.end())
+	{
+		fileStream << *movieIter;
+		++movieIter;
+	}
+
+	for(; movieIter != moviePreferences.end(); ++movieIter)
+	{
+
+		fileStream << "," << *movieIter;
+	}
+
+	fileStream.close();
+
+	//write preferred personnel
+	fileStream.open(personnelPreferencesPath);
+	auto personnelIter = personnelPreferences.begin();
+
+	fileStream << personnelPreferences.size << endl;
+
+	if(personnelIter != moviePreferences.end())
+	{
+		fileStream << '\"' << (*personnelIter).first() << ',' << (*personnelIter).second() << '\"';
+		++personnelIter;
+	}
+
+	for(; personnelIter != moviePreferences.end(); ++personnelIter)
+	{
+
+		fileStream << ",";
+		fileStream << '\"' << (*personnelIter).first() << ',' << (*personnelIter).second() << '\"';
+	}
 }
 
 void ProgramManager::addMovie(const string& movieID, const Movie& movie)
