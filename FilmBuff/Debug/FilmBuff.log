@@ -1,2 +1,6 @@
-﻿  ProgramManager.cpp
+﻿  Movie.cpp
+  ProgramManager.cpp
+  main.cpp
+  Generating Code...
+  LINK : C:\Users\KnockCloud\Documents\GitHub\FilmBuff\FilmBuff\Debug\FilmBuff.exe not found or not built by the last incremental link; performing full link
   FilmBuff.vcxproj -> C:\Users\KnockCloud\Documents\GitHub\FilmBuff\FilmBuff\Debug\FilmBuff.exe

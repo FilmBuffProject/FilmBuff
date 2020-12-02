@@ -15,7 +15,7 @@ void ProgramManager::initialize()
 	loadMovies();
 	loadPersonnel();
 	loadPrincipals();
-	cout << "Time elapsed: " << t.elapsed() << " seconds\n";
+	cout << "Time elapsed: " << t.elapsed() << " seconds\n" << endl;
 }
 
 void ProgramManager::loadMovies()
