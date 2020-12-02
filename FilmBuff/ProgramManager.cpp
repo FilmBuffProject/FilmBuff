@@ -2,6 +2,7 @@
 #include <fstream>
 #include <sstream>
 #include <iostream>
+#include "Timer.cpp"
 
 const string ProgramManager::moviesPath = "../Database/IMDb movies.csv";
 const string ProgramManager::namesPath = "../Database/IMDb names.csv";
@@ -13,6 +14,7 @@ ProgramManager::ProgramManager() {
 
 void ProgramManager::initialize()
 {
+	Timer t;
 	fstream movieStream(moviesPath);
 	fstream nameStream(namesPath);
 	fstream principalStream(principalsPath);
@@ -156,4 +158,5 @@ void ProgramManager::initialize()
 	}
 
 	cout << "Connections Loaded!" << endl << endl;
+	std::cout << "Time elapsed: " << t.elapsed() << " seconds\n" << endl;
 }

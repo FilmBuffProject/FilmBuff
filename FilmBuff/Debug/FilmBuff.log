@@ -1,7 +1,9 @@
-﻿  ProgramManager.cpp
-C:\Users\becfl\Documents\Data Structures Final Project\FilmBuff\FilmBuff\ProgramManager.cpp(31,21): warning C4018: '<': signed/unsigned mismatch
-C:\Users\becfl\Documents\Data Structures Final Project\FilmBuff\FilmBuff\ProgramManager.cpp(76,21): warning C4018: '<': signed/unsigned mismatch
-C:\Users\becfl\Documents\Data Structures Final Project\FilmBuff\FilmBuff\ProgramManager.cpp(121,21): warning C4018: '<': signed/unsigned mismatch
-  main.cpp
+﻿  main.cpp
+  Movie.cpp
+  ProgramManager.cpp
+C:\Users\KnockCloud\Documents\GitHub\FilmBuff\FilmBuff\ProgramManager.cpp(33,21): warning C4018: '<': signed/unsigned mismatch
+C:\Users\KnockCloud\Documents\GitHub\FilmBuff\FilmBuff\ProgramManager.cpp(78,21): warning C4018: '<': signed/unsigned mismatch
+C:\Users\KnockCloud\Documents\GitHub\FilmBuff\FilmBuff\ProgramManager.cpp(123,21): warning C4018: '<': signed/unsigned mismatch
+  Timer.cpp
   Generating Code...
-  FilmBuff.vcxproj -> C:\Users\becfl\Documents\Data Structures Final Project\FilmBuff\FilmBuff\Debug\FilmBuff.exe
+  FilmBuff.vcxproj -> C:\Users\KnockCloud\Documents\GitHub\FilmBuff\FilmBuff\Debug\FilmBuff.exe
