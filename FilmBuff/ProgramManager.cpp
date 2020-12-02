@@ -3,6 +3,7 @@
 #include <sstream>
 #include <stdexcept> 
 #include <iostream>
+#include "Timer.cpp"
 
 const string ProgramManager::moviesPath = "../Database/IMDb movies.csv";
 const string ProgramManager::namesPath = "../Database/IMDb names.csv";
@@ -10,9 +11,11 @@ const string ProgramManager::principalsPath = "../Database/IMDb title_principals
 
 void ProgramManager::initialize()
 {
+	Timer t;
 	loadMovies();
-	//loadPersonnel();
-	//loadPrincipals();
+	loadPersonnel();
+	loadPrincipals();
+	cout << "Time elapsed: " << t.elapsed() << " seconds\n";
 }
 
 void ProgramManager::loadMovies()
@@ -20,10 +23,8 @@ void ProgramManager::loadMovies()
 	fstream fileStream(moviesPath);
 	string entry;
 
-	int numOfMovies = 1;
 	while(getline(fileStream, entry))//processes all movies
 	{
-		++numOfMovies;
 		/*file format: IMDb movie ID, title, year, genre, description, score
 		The CSV files follows RFC 4180 standard, https://en.wikipedia.org/wiki/Comma-separated_values#Basic_rules, from what I can tell
 		*/
@@ -77,18 +78,20 @@ void ProgramManager::loadMovies()
 
 		try
 		{
-			score = stod(columns[numOfFields - 1]);
-			Movie movie(columns[1], columns[2], columns[3], columns[4], score);
+			score = stod(columns[5]);
+			Movie movie(columns[1], stoi(columns[2]), columns[3], columns[4], score);
 			addMovie(columns[0], movie);
 		}
-		catch(invalid_argument exception)
+		catch(invalid_argument ex)
 		{
-			cout << "bad news";
-			cerr << "Couldn't load movies";
+			cout << "Error" << ex.what() << endl;
+			cerr << "Couldn't load movies" << endl;
+		}
+		catch(exception ex)
+		{
+			cout << "something went wrong" << endl;
 		}
 	}
-
-	cout << "finsihed" << numOfMovies;
 }
 
 void ProgramManager::loadPersonnel()
@@ -104,7 +107,7 @@ void ProgramManager::loadPersonnel()
 
 		const int numOfFields = 2;
 		stringstream entryStream(entry);
-		string columns[numOfFields]; //IMDb_ID, title, year, genre, description, scoreString;
+		string columns[numOfFields];
 
 		//fill columns array with field data
 		for(int i = 0; i < numOfFields; ++i)
@@ -152,7 +155,7 @@ void ProgramManager::loadPersonnel()
 		{
 			addPersonnel(columns[0], columns[1]);
 		}
-		catch(invalid_argument exception)
+		catch(exception ex)
 		{
 			cerr << "Couldn't load personnel";
 		}
@@ -161,6 +164,70 @@ void ProgramManager::loadPersonnel()
 
 void ProgramManager::loadPrincipals()
 {
+	fstream fileStream(namesPath);
+	string entry;
+
+	while(getline(fileStream, entry))//processes all personnel
+	{
+		/*file format: IMDb movie ID, IMDb personnel ID
+		The CSV files follows RFC 4180 standard, https://en.wikipedia.org/wiki/Comma-separated_values#Basic_rules
+		*/
+
+		const int numOfFields = 2;
+		stringstream entryStream(entry);
+		string columns[numOfFields];
+
+		//fill columns array with field data
+		for(int i = 0; i < numOfFields; ++i)
+		{
+			if(entryStream.peek() != '\"')//field isn't quoted
+			{
+				if(i != numOfFields - 1)//not last field
+				{
+					getline(entryStream, columns[i], ',');
+				}
+				else
+				{
+					getline(entryStream, columns[i]);
+				}
+			}
+			else//field is quoted
+			{
+				entryStream.get();//discard first quote
+				char temp;
+
+				while(entryStream.get(temp))
+				{
+					if(temp == '\"')//quote can signify the start of an actual quote or the end of field
+					{
+						entryStream.get(temp);
+
+						if(temp == '\"')//actual quote
+						{
+							columns[i] += '\"';
+						}
+						else//end of field
+						{
+							break;
+						}
+					}
+					else//normal character to be added
+					{
+						columns[i] += temp;
+					}
+				}
+			}
+		}
+
+		try
+		{
+			addConnection(columns[0], columns[1]);
+		}
+		catch(exception ex)
+		{
+			cerr << "Couldn't load personnel";
+		}
+	}
 }
 
 void ProgramManager::addMovie(const string& movieID, const Movie& movie)
@@ -175,5 +242,16 @@ void ProgramManager::addPersonnel(const string& personnelID, const string& name)
 
 void ProgramManager::addConnection(const string& movieID, const string& personnelID)
 {
+	Movie_to_Personnel[movieID].insert(personnelID);
+	Personnel_to_Movies[personnelID].insert(movieID);
+}
 
+bool ProgramManager::doesMovieExist(const string& movieID) const
+{
+	return Movies.find(movieID) != Movies.end();
+}
+
+bool ProgramManager::doesPersonnelExist(const string& movieID) const
+{
+	return Personnel.find(movieID) != Personnel.end();
 }

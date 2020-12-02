@@ -4,11 +4,11 @@ Movie::Movie() {
 	this->title = "";
 	this->genre = "";
 	this->description = "";
-	this->year = "";
+	this->year = 0;
 	this->score = 0;
 }
 
-Movie::Movie(string _title, string _genre, string _description, string _year, double _score) {
+Movie::Movie(string _title, int _year, string _genre, string _description, double _score) {
 	this->title = _title;
 	this->genre = _genre;
 	this->description = _description;
@@ -28,7 +28,7 @@ string Movie::getDescription() {
 	return this->description;
 }
 
-string Movie::getYear() {
+int Movie::getYear() {
 	return this->year;
 }
 

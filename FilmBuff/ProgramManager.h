@@ -30,9 +30,9 @@ class ProgramManager
 	void loadMovies();
 	void loadPersonnel();
 	void loadPrincipals();
-	//bool doesMovieExist(const string& movieID) const;
-	//bool doesPersonnelExist(const string& personnelID) const;
-	//bool isConnection(const string& movieID, const string& personnelID) const;
+	bool doesMovieExist(const string& movieID) const;
+	bool doesPersonnelExist(const string& personnelID) const;
+	bool isConnection(const string& movieID, const string& personnelID) const;
 	void addMovie(const string& movieID, const Movie& movie);
 	void addPersonnel(const string& personnelID, const string& name);
 	void addConnection(const string& movieID, const string& personnelID);

@@ -8,16 +8,16 @@ private:
 	string title;
 	string genre;
 	string description;
-	string year;
+	int year;
 	double score;
 
 public:
 	Movie();
-	Movie(string _title, string _genre, string _description, string _year, double _score);
+	Movie(string _title, int _year, string _genre, string _description, double _score);
 	string getTitle();
 	string getGenre();
 	string getDescription();
-	string getYear();
+	int getYear();
 	double getScore();
 };
 
