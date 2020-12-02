@@ -14,9 +14,9 @@ private:
 public:
 	Movie();
 	Movie(string _title, int _year, string _genre, string _description, double _score);
-	string getTitle();
-	string getGenre();
-	string getDescription();
-	int getYear();
-	double getScore();
+	string getTitle() const;
+	string getGenre() const;
+	string getDescription() const;
+	int getYear() const;
+	double getScore() const;
 };
