@@ -13,10 +13,15 @@ ProgramManager::ProgramManager() {
 
 void ProgramManager::initialize()
 {
-	fstream fileStream(moviesPath);
+	fstream movieStream(moviesPath);
+	fstream nameStream(namesPath);
+	fstream principalStream(principalsPath);
 	string entry;
 
-	while(getline(fileStream, entry)) //processes all movies
+	cout << "Initializing..." << endl;
+
+	//Processes movie database and adds to map
+	while(getline(movieStream, entry))
 	{
 		vector<string> movieData;
 		bool inQuotes = false;
@@ -59,5 +64,96 @@ void ProgramManager::initialize()
 		this->Movies[movieData[0]] = m;
 	}
 
-	cout << "Movies Loaded..." << endl;
+	cout << "Movies Loaded!" << endl;
+
+	//Processes personnel database and adds to map
+	while (getline(nameStream, entry)) {
+		vector<string> nameData;
+		bool inQuotes = false;
+		bool doubleQuotes = false;
+		string tempString = "";
+
+		for (int i = 0; i < entry.length(); i++) {
+			if (inQuotes == false && entry[i] == '"') {
+				inQuotes = true;
+				continue;
+			}
+			else if (inQuotes == true && entry[i] == '"') {
+				if (doubleQuotes == true) {
+					tempString += '"';
+					doubleQuotes = false;
+					continue;
+				}
+
+				if (entry[i + 1] == '"') {
+					doubleQuotes = true;
+					continue;
+				}
+
+				nameData.push_back(tempString);
+				tempString = "";
+				inQuotes = false;
+				i++;
+				continue;
+			}
+			else if (inQuotes == false && entry[i] == ',') {
+				nameData.push_back(tempString);
+				tempString = "";
+				continue;
+			}
+
+			tempString += entry[i];
+		}
+
+		nameData.push_back(tempString);
+		this->Personnel[nameData[0]] = nameData[0];
+	}
+
+	cout << "Personnel Loaded!" << endl;
+
+	//Processes principals database and adds to both maps
+	while (getline(principalStream, entry)) {
+		vector<string> principalData;
+		bool inQuotes = false;
+		bool doubleQuotes = false;
+		string tempString = "";
+
+		for (int i = 0; i < entry.length(); i++) {
+			if (inQuotes == false && entry[i] == '"') {
+				inQuotes = true;
+				continue;
+			}
+			else if (inQuotes == true && entry[i] == '"') {
+				if (doubleQuotes == true) {
+					tempString += '"';
+					doubleQuotes = false;
+					continue;
+				}
+
+				if (entry[i + 1] == '"') {
+					doubleQuotes = true;
+					continue;
+				}
+
+				principalData.push_back(tempString);
+				tempString = "";
+				inQuotes = false;
+				i++;
+				continue;
+			}
+			else if (inQuotes == false && entry[i] == ',') {
+				principalData.push_back(tempString);
+				tempString = "";
+				continue;
+			}
+
+			tempString += entry[i];
+		}
+
+		principalData.push_back(tempString);
+		this->Movie_to_Personnel[principalData[0]].insert(principalData[1]);
+		this->Personnel_to_Movies[principalData[1]].insert(principalData[0]);
+	}
+
+	cout << "Connections Loaded!" << endl;
 }
