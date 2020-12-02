@@ -257,7 +257,7 @@ void ProgramManager::loadPreferred()
 
 	fileStream.close();
 
-	//write preferred personnel
+	//read preferred personnel
 	fileStream.open(personnelPreferencesPath);
 	string personnelEntry;
 
