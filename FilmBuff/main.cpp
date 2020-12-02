@@ -34,19 +34,75 @@ int main() {
 		}
 		case 1: 
 		{		
+			string temp = "";
+			
 			cout << "Please enter a keyword to search for: ";
 			getline(cin, search);
 
-			unordered_set<string> movies = db.searchMovies(search);
+			vector<string> movies = db.searchMovies(search);
+
+			cout << "Please enter space separated list of movies you wish to add: ";
+			getline(cin, search);
+
+			for (int i = 0; i < search.length(); i++) {
+				if (search[i] == ' ') {
+					if (stoi(temp) - 1 < movies.size()) {
+						db.addPreferences(movies[stoi(temp) - 1]);
+					}
+					else {
+						cout << "List only contains " << movies.size() << " movies. Could not add movie #" << temp << "!" << endl;
+					}
+
+					temp = "";
+					continue;
+				}
+
+				temp += search[i];
+			}
+
+			if (stoi(temp) - 1 < movies.size()) {
+				db.addPreferences(movies[stoi(temp) - 1]);
+			}
+			else {
+				cout << "List only contains " << movies.size() << " movies. Could not add movie #" << temp << "!" << endl;
+			}
 
 			break;
 		}
 		case 2: 
 		{
+			string temp = "";
+			
 			cout << "Please enter an actor to search for: ";
 			getline(cin, search);
 
-			unordered_set<string> movies = db.searchPersonnel(search);
+			vector<string> movies = db.searchPersonnel(search);
+
+			cout << "Please enter space separated list of movies you wish to add: ";
+			getline(cin, search);
+
+			for (int i = 0; i < search.length(); i++) {
+				if (search[i] == ' ') {
+					if (stoi(temp) - 1 < movies.size()) {
+						db.addPreferences(movies[stoi(temp) - 1]);
+					}
+					else {
+						cout << "List only contains " << movies.size() << " movies. Could not add movie #" << temp << "!" << endl;
+					}
+
+					temp = "";
+					continue;
+				}
+
+				temp += search[i];
+			}
+
+			if (stoi(temp) - 1 < movies.size()) {
+				db.addPreferences(movies[stoi(temp) - 1]);
+			}
+			else {
+				cout << "List only contains " << movies.size() << " movies. Could not add movie #" << temp << "!" << endl;
+			}
 
 			break;
 		}
