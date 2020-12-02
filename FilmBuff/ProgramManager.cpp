@@ -317,8 +317,6 @@ void ProgramManager::addPreferences(const string& movieID) {
 
 		for (auto i = m.begin(); i != m.end(); i++) {
 			this->personnelPreferences[*i] += 1;
-
-			cout << "a";
 		}
 	}
 }
