@@ -14,6 +14,7 @@ ProgramManager::ProgramManager() {
 
 void ProgramManager::initialize()
 {
+	cout << "Initializing..." << endl;
 	Timer t;
 	loadMovies();
 	loadPersonnel();
@@ -95,6 +96,8 @@ void ProgramManager::loadMovies()
 			cout << "something went wrong" << endl;
 		}
 	}
+
+	cout << "Loaded Movies!" << endl;
 }
 
 void ProgramManager::loadPersonnel()
@@ -163,11 +166,13 @@ void ProgramManager::loadPersonnel()
 			cerr << "Couldn't load personnel";
 		}
 	}
+
+	cout << "Loaded Personnel!" << endl;
 }
 
 void ProgramManager::loadPrincipals()
 {
-	fstream fileStream(namesPath);
+	fstream fileStream(principalsPath);
 	string entry;
 
 	while (getline(fileStream, entry))//processes all personnel
@@ -231,6 +236,8 @@ void ProgramManager::loadPrincipals()
 			cerr << "Couldn't load personnel";
 		}
 	}
+
+	cout << "Loaded Connections!" << endl;
 }
 
 void ProgramManager::addMovie(const string& movieID, const Movie& movie)
@@ -288,7 +295,7 @@ unordered_set<string> ProgramManager::searchPersonnel(const string& personnelNam
 	}
 
 	/*for (auto i = results.begin(); i != results.end(); i++) {
-		cout << (results.size() + 1) << ". " << Movies.at(*i)->getTitle() << " (" << this->Movies.at(*i)->getYear() << ")" << endl;
+		cout << (results.size() + 1) << ". " << this->Movies[i]->getTitle() << " (" << this->Movies.at(*i)->getYear() << ")" << endl;
 		cout << "Genre: " << this->Movies.at(*i)->getGenre() << endl;
 		cout << "Description: " << this->Movies.at(*i)->getDescription() << endl << endl;
 	}*/
