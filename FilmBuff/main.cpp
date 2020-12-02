@@ -23,13 +23,16 @@ int main() {
 		{
 		default:
 		{
-			cout << "none" << endl;
+			cout << "Please select a valid option." << endl;
+
 			break;
 		}
 		case 0:
 		{
 			cout << "Thanks for visiting!" << endl;
 			cont = false;
+			db.writePreferred();
+
 			break;
 		}
 		case 1: 

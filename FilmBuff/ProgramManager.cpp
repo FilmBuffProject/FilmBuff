@@ -273,6 +273,8 @@ void ProgramManager::loadPreferred()
 
 		personnelPreferences[personnelID] = stoi(appearancesString);
 	}
+
+	cout << "Loaded Preferences!" << endl;
 }
 
 void ProgramManager::writePreferred()
