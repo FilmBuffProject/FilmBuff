@@ -423,14 +423,7 @@ vector<string> ProgramManager::findRecommendations() const
 		{
 			if(moviePreferences.find(*recommendedIter) == moviePreferences.end())//makes sure movie isn't already in set of preferences
 			{
-				if(recommendations.find(*recommendedIter) == recommendations.begin())//if first time being recommended
-				{
-					recommendations[*recommendedIter] = iter->second;//personnel_weight
-				}
-				else
-				{
-					recommendations[*recommendedIter] += iter->second;
-				}
+				recommendations[*recommendedIter] += iter->second;
 			}
 		}
 	}
@@ -465,6 +458,10 @@ void ProgramManager::displayPreferences() const {
 		displayMovie(*i, count);
 
 		count++;
+	}
+
+	if (count == 1) {
+		cout << "Please add movies to your preferences!" << endl << endl;
 	}
 }
 
