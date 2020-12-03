@@ -4,6 +4,7 @@
 #include <iostream>
 #include <utility>
 #include <algorithm>
+#include <queue>
 #include "Timer.cpp"
 
 const string ProgramManager::moviesPath = "../Database/IMDb movies.csv";
@@ -17,13 +18,10 @@ ProgramManager::ProgramManager()
 
 void ProgramManager::initialize()
 {
-	cout << "Initializing..." << endl;
-	Timer t;
 	loadMovies();
 	loadPersonnel();
 	loadPrincipals();
 	loadPreferred();
-	cout << "Time elapsed: " << t.elapsed() << " seconds\n" << endl;
 }
 
 void ProgramManager::loadMovies()
@@ -308,13 +306,30 @@ bool ProgramManager::doesPersonnelExist(const string& movieID) const
 	return Personnel.find(movieID) != Personnel.end();
 }
 
-vector<string> ProgramManager::searchMovies(const string& movieName) {
+vector<string> ProgramManager::searchMovies(const string& query) {
 	vector<string> results;
+	queue<string> keywords;
+
+	stringstream keywords_stream(query);
+	string temp_keyword;
+
+	while(getline(keywords_stream, temp_keyword, ' '))
+	{
+		keywords.push(temp_keyword);
+	}
 
 	for (auto i = this->Movies.begin(); i != Movies.end(); i++) {
 		Movie m = i->second;
+		string movieTitle = m.getTitle();
+		bool contains_all_keywords = true;
 
-		if (i->second.getTitle().find(movieName) != std::string::npos) {
+		while(contains_all_keywords && keywords.size() != 0)
+		{
+			contains_all_keywords = movieTitle.find(keywords.front()) != string::npos;
+			keywords.pop();
+		}
+
+		if (contains_all_keywords) {
 			if (this->moviePreferences.find(i->first) == this->moviePreferences.end()) {
 				displayMovie(i->first, results.size() + 1);
 
