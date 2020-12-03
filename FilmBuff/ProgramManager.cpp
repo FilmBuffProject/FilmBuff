@@ -10,7 +10,6 @@ const string ProgramManager::moviesPath = "../Database/IMDb movies.csv";
 const string ProgramManager::namesPath = "../Database/IMDb names.csv";
 const string ProgramManager::principalsPath = "../Database/IMDb title_principals.csv";
 const string ProgramManager::moviePreferencesPath = "../Database/preferredMovies";
-const string ProgramManager::personnelPreferencesPath = "../Database/preferredPersonnel";
 
 ProgramManager::ProgramManager() 
 {
@@ -254,27 +253,10 @@ void ProgramManager::loadPreferred()
 
 	while(getline(fileStream, movieID, ','))
 	{
-		moviePreferences.insert(movieID);
+		addPreferences(movieID);
 	}
 
 	fileStream.close();
-
-	//read preferred personnel
-	fileStream.open(personnelPreferencesPath);
-	string personnelEntry;
-
-	getline(fileStream, personnelEntry);
-	int numOfPersonnel = stoi(personnelEntry);
-
-	for(; numOfPersonnel != 0; --numOfPersonnel)
-	{
-		string personnelID, appearancesString;
-		getline(fileStream, personnelEntry, '\"');//discard first quote
-		getline(fileStream, personnelID, ',');//personnelID
-		getline(fileStream, appearancesString, '\"');//numOfAppearances and last quote
-
-		personnelPreferences[personnelID] = stoi(appearancesString);
-	}
 
 	cout << "Loaded Preferences!" << endl;
 }
@@ -298,25 +280,6 @@ void ProgramManager::writePreferred()
 	}
 
 	fileStream.close();
-
-	//write preferred personnel
-	fileStream.open(personnelPreferencesPath);
-	auto personnelIter = personnelPreferences.begin();
-
-	fileStream << personnelPreferences.size() << endl;
-
-	if(personnelIter != personnelPreferences.end())
-	{
-		fileStream << '\"' << (*personnelIter).first << ',' << (*personnelIter).second << '\"';
-		++personnelIter;
-	}
-
-	for(; personnelIter != personnelPreferences.end(); ++personnelIter)
-	{
-
-		fileStream << ",";
-		fileStream << '\"' << (*personnelIter).first << ',' << (*personnelIter).second << '\"';
-	}
 }
 
 void ProgramManager::addMovie(const string& movieID, const Movie& movie)
@@ -352,13 +315,11 @@ vector<string> ProgramManager::searchMovies(const string& movieName) {
 		Movie m = i->second;
 
 		if (i->second.getTitle().find(movieName) != std::string::npos) {
-			displayMovie(i->first, results.size() + 1);
+			if (this->moviePreferences.find(i->first) == this->moviePreferences.end()) {
+				displayMovie(i->first, results.size() + 1);
 
-			/*cout << (results.size() + 1) << ". " << i->second.getTitle() << " (" << i->second.getYear() << ")" << endl;
-			cout << "Genre: " << i->second.getGenre() << endl;
-			cout << "Description: " << i->second.getDescription() << endl << endl;*/
-
-			results.push_back(i->first);
+				results.push_back(i->first);
+			}
 		}
 	}
 
@@ -372,7 +333,9 @@ vector<string> ProgramManager::searchPersonnel(const string& personnelName) {
 	for (auto i = this->Personnel.begin(); i != Personnel.end(); i++) {
 		if (personnelName == i->second) {
 			for (auto j = Personnel_to_Movies.at(i->first).begin(); j != Personnel_to_Movies.at(i->first).end(); j++) {
-				results.push_back(*j);
+				if (this->moviePreferences.find(*j) == this->moviePreferences.end()) {
+					results.push_back(*j);
+				}
 			}
 			
 			break;
@@ -390,9 +353,28 @@ vector<string> ProgramManager::searchPersonnel(const string& personnelName) {
 
 void ProgramManager::addPreferences(const string& movieID) {
 	auto inserted = this->moviePreferences.insert(movieID);
-	
+	bool added = false;
+
+	for (auto i = moviePreferences.begin(); i != moviePreferences.end(); i++) {
+		if (movieID == *i) {
+			continue;
+		}
+
+		vector<string> commonPersonnel;
+		set_intersection(Movie_to_Personnel[movieID].begin(), Movie_to_Personnel[movieID].end(), Movie_to_Personnel[*i].begin(), Movie_to_Personnel[*i].end(), std::back_inserter(commonPersonnel));
+
+		if (commonPersonnel.size() > 0) {
+			this->mGraph.insertEdge(movieID, *i, commonPersonnel.size());
+			added = true;
+		}
+	}
+
+	if (added == false) {
+		mGraph.insertVertex(movieID);
+	}
+
 	if (inserted.second == true) {
-		unordered_set<string> m = this->Movie_to_Personnel.at(movieID);
+		set<string> m = this->Movie_to_Personnel.at(movieID);
 
 		for (auto i = m.begin(); i != m.end(); i++) {
 			this->personnelPreferences[*i] += 1;
@@ -400,28 +382,29 @@ void ProgramManager::addPreferences(const string& movieID) {
 	}
 }
 
-vector<string> ProgramManager::findRecommendations() const 
+vector<string> ProgramManager::findRecommendations(double k0, double k1) const
 {
 	/*Rank Equation
-		rank(n) = (k0 * total_personnel_weight(n)) + (k1 * IMDb weight(n))
+		rank(n) = (k0 * 10 * total_personnel_weight(n) / total_personnel_overall) + (k1 * IMDb weight(n))
 		k0 and k1 are constants used for deciding which of total_personnel_weight and IMDb weight is valued more
 	*/
 	unordered_map<string, double> recommendations;//IMDb movie ID, rank
+	int total_personnel_overall = 0;
 
-	double k0 = 1.0, k1 = 1.0;//k0, k1
-	if(personnelPreferences.size() == 0)
+	if (personnelPreferences.size() == 0)
 	{
 		return vector<string>{};
 	}
 
 	//fills recommendations map with total_personnel_weight
-	for(auto iter = personnelPreferences.begin(); iter != personnelPreferences.end(); ++iter)//uses each personnel to recommend movies
+	for (auto iter = personnelPreferences.begin(); iter != personnelPreferences.end(); ++iter)//uses each personnel to recommend movies
 	{
-		const unordered_set<string>& recommendedMovies = Personnel_to_Movies.at(iter->first);
+		const set<string>& recommendedMovies = Personnel_to_Movies.at(iter->first);
+		total_personnel_overall += iter->second;
 
-		for(auto recommendedIter = recommendedMovies.begin(); recommendedIter != recommendedMovies.end(); ++recommendedIter)
+		for (auto recommendedIter = recommendedMovies.begin(); recommendedIter != recommendedMovies.end(); ++recommendedIter)
 		{
-			if(moviePreferences.find(*recommendedIter) == moviePreferences.end())//makes sure movie isn't already in set of preferences
+			if (moviePreferences.find(*recommendedIter) == moviePreferences.end())//makes sure movie isn't already in set of preferences
 			{
 				recommendations[*recommendedIter] += iter->second;
 			}
@@ -429,16 +412,16 @@ vector<string> ProgramManager::findRecommendations() const
 	}
 
 	//finishes calculating ranks
-	for(auto iter = recommendations.begin(); iter != recommendations.end(); ++iter)
+	for (auto iter = recommendations.begin(); iter != recommendations.end(); ++iter)
 	{
 		double total_personnel_weight = iter->second;
 		double IMDb_weight = Movies.at(iter->first).getScore();
-		iter->second = (k0 * total_personnel_weight) + (k1 * IMDb_weight);
+		iter->second = (k0 * 10 * total_personnel_weight / total_personnel_overall) + (k1 * IMDb_weight);
 	}
 
 	//returns a vector of recommendations sorted by greatest rank first
 	vector<string> output;
-	for(auto iter = recommendations.begin(); iter != recommendations.end(); ++iter)
+	for (auto iter = recommendations.begin(); iter != recommendations.end(); ++iter)
 	{
 		output.push_back(iter->first);
 	}
