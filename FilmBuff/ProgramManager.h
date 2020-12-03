@@ -45,7 +45,9 @@ public:
 	void addPersonnel(const string& personnelID, const string& name);
 	void addConnection(const string& movieID, const string& personnelID);
 	void addPreferences(const string& movieID);
-	void findRecommendations() const;
+	vector<string> findRecommendations() const;
+	void displayPreferences() const;
+	void displayMovie(const string& movieID, int count) const;
 };
 
 #endif

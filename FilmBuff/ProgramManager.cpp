@@ -2,6 +2,8 @@
 #include <fstream>
 #include <sstream>
 #include <iostream>
+#include <utility>
+#include <algorithm>
 #include "Timer.cpp"
 
 const string ProgramManager::moviesPath = "../Database/IMDb movies.csv";
@@ -350,9 +352,11 @@ vector<string> ProgramManager::searchMovies(const string& movieName) {
 		Movie m = i->second;
 
 		if (i->second.getTitle().find(movieName) != std::string::npos) {
-			cout << (results.size() + 1) << ". " << i->second.getTitle() << " (" << i->second.getYear() << ")" << endl;
+			displayMovie(i->first, results.size() + 1);
+
+			/*cout << (results.size() + 1) << ". " << i->second.getTitle() << " (" << i->second.getYear() << ")" << endl;
 			cout << "Genre: " << i->second.getGenre() << endl;
-			cout << "Description: " << i->second.getDescription() << endl << endl;
+			cout << "Description: " << i->second.getDescription() << endl << endl;*/
 
 			results.push_back(i->first);
 		}
@@ -376,9 +380,7 @@ vector<string> ProgramManager::searchPersonnel(const string& personnelName) {
 	}
 
 	for (auto i = results.begin(); i != results.end(); i++) {
-		cout << count << ". " << this->Movies.at(*i).getTitle() << " (" << this->Movies.at(*i).getYear() << ")" << endl;
-		cout << "Genre: " << this->Movies.at(*i).getGenre() << endl;
-		cout << "Description: " << this->Movies.at(*i).getDescription() << endl << endl;
+		displayMovie(*i, count);
 
 		count++;
 	}
@@ -398,6 +400,73 @@ void ProgramManager::addPreferences(const string& movieID) {
 	}
 }
 
-void ProgramManager::findRecommendations() const {
-	
+vector<string> ProgramManager::findRecommendations() const 
+{
+	/*Rank Equation
+		rank(n) = (k0 * total_personnel_weight(n)) + (k1 * IMDb weight(n))
+		k0 and k1 are constants used for deciding which of total_personnel_weight and IMDb weight is valued more
+	*/
+	unordered_map<string, double> recommendations;//IMDb movie ID, rank
+
+	double k0 = 1.0, k1 = 1.0;//k0, k1
+	if(personnelPreferences.size() == 0)
+	{
+		return vector<string>{};
+	}
+
+	//fills recommendations map with total_personnel_weight
+	for(auto iter = personnelPreferences.begin(); iter != personnelPreferences.end(); ++iter)//uses each personnel to recommend movies
+	{
+		const unordered_set<string>& recommendedMovies = Personnel_to_Movies.at(iter->first);
+
+		for(auto recommendedIter = recommendedMovies.begin(); recommendedIter != recommendedMovies.end(); ++recommendedIter)
+		{
+			if(moviePreferences.find(*recommendedIter) == moviePreferences.end())//makes sure movie isn't already in set of preferences
+			{
+				recommendations[*recommendedIter] += iter->second;
+			}
+		}
+	}
+
+	//finishes calculating ranks
+	for(auto iter = recommendations.begin(); iter != recommendations.end(); ++iter)
+	{
+		double total_personnel_weight = iter->second;
+		double IMDb_weight = Movies.at(iter->first).getScore();
+		iter->second = (k0 * total_personnel_weight) + (k1 * IMDb_weight);
+	}
+
+	//returns a vector of recommendations sorted by greatest rank first
+	vector<string> output;
+	for(auto iter = recommendations.begin(); iter != recommendations.end(); ++iter)
+	{
+		output.push_back(iter->first);
+	}
+
+	sort(output.begin(), output.end(), [&](string a, string b) -> bool
+		{
+			return recommendations[a] > recommendations[b];
+		});
+
+	return output;
+}
+
+void ProgramManager::displayPreferences() const {
+	int count = 1;
+
+	for (auto i = this->moviePreferences.begin(); i != this->moviePreferences.end(); i++) {
+		displayMovie(*i, count);
+
+		count++;
+	}
+
+	if (count == 1) {
+		cout << "Please add movies to your preferences!" << endl << endl;
+	}
+}
+
+void ProgramManager::displayMovie(const string& movieID, int count) const {
+	cout << count << ". " << this->Movies.at(movieID).getTitle() << " (" << this->Movies.at(movieID).getYear() << ")" << endl;
+	cout << "Genre: " << this->Movies.at(movieID).getGenre() << endl;
+	cout << "Description: " << this->Movies.at(movieID).getDescription() << endl << endl;
 }

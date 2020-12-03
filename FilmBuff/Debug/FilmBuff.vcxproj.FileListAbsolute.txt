@@ -2,3 +2,5 @@ C:\Users\KnockCloud\Documents\GitHub\FilmBuff\FilmBuff\Debug\FilmBuff.exe
 C:\Users\KnockCloud\Documents\GitHub\FilmBuff\FilmBuff\Debug\FilmBuff.pdb
 C:\Users\becfl\Documents\Data Structures Final Project\FilmBuff\FilmBuff\Debug\FilmBuff.exe
 C:\Users\becfl\Documents\Data Structures Final Project\FilmBuff\FilmBuff\Debug\FilmBuff.pdb
+C:\Users\becfl\Documents\GitHub\FilmBuff\FilmBuff\Debug\FilmBuff.exe
+C:\Users\becfl\Documents\GitHub\FilmBuff\FilmBuff\Debug\FilmBuff.pdb

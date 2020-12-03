@@ -16,22 +16,22 @@ Movie::Movie(string _title, int _year, string _genre, string _description, doubl
 	this->score = _score;
 }
 
-string Movie::getTitle() {
+string Movie::getTitle() const {
 	return this->title;
 }
 
-string Movie::getGenre() {
+string Movie::getGenre() const {
 	return this->genre;
 }
 
-string Movie::getDescription() {
+string Movie::getDescription() const {
 	return this->description;
 }
 
-int Movie::getYear() {
+int Movie::getYear() const {
 	return this->year;
 }
 
-double Movie::getScore() {
+double Movie::getScore() const {
 	return this->score;
 }
