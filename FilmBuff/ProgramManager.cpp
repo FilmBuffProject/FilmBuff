@@ -423,14 +423,7 @@ vector<string> ProgramManager::findRecommendations() const
 		{
 			if(moviePreferences.find(*recommendedIter) == moviePreferences.end())//makes sure movie isn't already in set of preferences
 			{
-				if(recommendations.find(*recommendedIter) == recommendations.begin())//if first time being recommended
-				{
-					recommendations[*recommendedIter] = iter->second;//personnel_weight
-				}
-				else
-				{
-					recommendations[*recommendedIter] += iter->second;
-				}
+				recommendations[*recommendedIter] += iter->second;
 			}
 		}
 	}
