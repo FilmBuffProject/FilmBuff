@@ -419,15 +419,15 @@ void ProgramManager::addPreferences(const string& movieID) {
 	}
 }
 
-vector<string> ProgramManager::findRecommendations() const 
+vector<string> ProgramManager::findRecommendations(double k0, double k1) const 
 {
 	/*Rank Equation
-		rank(n) = (k0 * total_personnel_weight(n)) + (k1 * IMDb weight(n))
+		rank(n) = (k0 * 10 * total_personnel_weight(n) / total_personnel_overall) + (k1 * IMDb weight(n))
 		k0 and k1 are constants used for deciding which of total_personnel_weight and IMDb weight is valued more
 	*/
 	unordered_map<string, double> recommendations;//IMDb movie ID, rank
+	int total_personnel_overall = 0;
 
-	double k0 = 1.0, k1 = 1.0;//k0, k1
 	if(personnelPreferences.size() == 0)
 	{
 		return vector<string>{};
@@ -437,6 +437,7 @@ vector<string> ProgramManager::findRecommendations() const
 	for(auto iter = personnelPreferences.begin(); iter != personnelPreferences.end(); ++iter)//uses each personnel to recommend movies
 	{
 		const set<string>& recommendedMovies = Personnel_to_Movies.at(iter->first);
+		total_personnel_overall += iter->second;
 
 		for(auto recommendedIter = recommendedMovies.begin(); recommendedIter != recommendedMovies.end(); ++recommendedIter)
 		{
@@ -452,7 +453,7 @@ vector<string> ProgramManager::findRecommendations() const
 	{
 		double total_personnel_weight = iter->second;
 		double IMDb_weight = Movies.at(iter->first).getScore();
-		iter->second = (k0 * total_personnel_weight) + (k1 * IMDb_weight);
+		iter->second = (k0 * 10 * total_personnel_weight / total_personnel_overall) + (k1 * IMDb_weight);
 	}
 
 	//returns a vector of recommendations sorted by greatest rank first

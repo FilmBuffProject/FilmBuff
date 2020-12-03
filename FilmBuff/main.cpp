@@ -131,7 +131,30 @@ int main() {
 			cout << "How many recommendations would you like? ";
 			getline(cin, search);
 
-			vector<string> recommendations = db.findRecommendations();
+			cout << "Recommendations are based on shared personnel (i.e. actors, directors, etc) with movies in your preference and IMDb rankings." << endl;
+			cout << "How much weight do you want to assign IMDb rankings (out of 100%)?" << endl;
+			cout << "IMDb weight: ";
+
+			string IMDb_Weight_String;
+			double IMDb_Weight, personnel_Weight;
+
+			getline(cin, IMDb_Weight_String);
+
+			IMDb_Weight = stod(IMDb_Weight_String);
+
+			while(IMDb_Weight < 0.0 || IMDb_Weight > 100.0)
+			{
+				cout << "The weight should be a percentage. Please try again." << endl;
+				cout << "IMDb weight: ";
+				getline(cin, IMDb_Weight_String);
+				IMDb_Weight = stod(IMDb_Weight_String);
+			}
+
+			personnel_Weight = 100 - IMDb_Weight;
+			cout << "%" << endl;
+			cout << "Personnel_Weight: " << personnel_Weight << endl;
+
+			vector<string> recommendations = db.findRecommendations(personnel_Weight, IMDb_Weight);
 
 			for (int i = 0; i < stoi(search); i++) {
 				db.displayMovie(recommendations[i], i + 1);
