@@ -10,7 +10,6 @@ const string ProgramManager::moviesPath = "../Database/IMDb movies.csv";
 const string ProgramManager::namesPath = "../Database/IMDb names.csv";
 const string ProgramManager::principalsPath = "../Database/IMDb title_principals.csv";
 const string ProgramManager::moviePreferencesPath = "../Database/preferredMovies";
-const string ProgramManager::personnelPreferencesPath = "../Database/preferredPersonnel";
 
 ProgramManager::ProgramManager() 
 {
@@ -254,27 +253,10 @@ void ProgramManager::loadPreferred()
 
 	while(getline(fileStream, movieID, ','))
 	{
-		moviePreferences.insert(movieID);
+		addPreferences(movieID);
 	}
 
 	fileStream.close();
-
-	//read preferred personnel
-	fileStream.open(personnelPreferencesPath);
-	string personnelEntry;
-
-	getline(fileStream, personnelEntry);
-	int numOfPersonnel = stoi(personnelEntry);
-
-	for(; numOfPersonnel != 0; --numOfPersonnel)
-	{
-		string personnelID, appearancesString;
-		getline(fileStream, personnelEntry, '\"');//discard first quote
-		getline(fileStream, personnelID, ',');//personnelID
-		getline(fileStream, appearancesString, '\"');//numOfAppearances and last quote
-
-		personnelPreferences[personnelID] = stoi(appearancesString);
-	}
 
 	cout << "Loaded Preferences!" << endl;
 }
@@ -298,25 +280,6 @@ void ProgramManager::writePreferred()
 	}
 
 	fileStream.close();
-
-	//write preferred personnel
-	fileStream.open(personnelPreferencesPath);
-	auto personnelIter = personnelPreferences.begin();
-
-	fileStream << personnelPreferences.size() << endl;
-
-	if(personnelIter != personnelPreferences.end())
-	{
-		fileStream << '\"' << (*personnelIter).first << ',' << (*personnelIter).second << '\"';
-		++personnelIter;
-	}
-
-	for(; personnelIter != personnelPreferences.end(); ++personnelIter)
-	{
-
-		fileStream << ",";
-		fileStream << '\"' << (*personnelIter).first << ',' << (*personnelIter).second << '\"';
-	}
 }
 
 void ProgramManager::addMovie(const string& movieID, const Movie& movie)

@@ -3,6 +3,9 @@
 
 #include <unordered_map>
 #include <set>
+#include <queue>
+#include <stack>
+#include <iostream>
 using namespace std;
 
 class movieGraph
@@ -17,6 +20,8 @@ public:
     void insertVertex(string from);
     int getWeight(string from, string to);
     set<pair<string, int>> getAdjacent(string vertex);
+    void bfs(string src) const;
+    void dfs(string src) const;
 };
 
 #endif
