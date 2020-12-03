@@ -2,6 +2,7 @@
 #include <iostream>
 #include "Movie.h"
 #include "ProgramManager.h"
+#include "movieGraph.h";
 using namespace std;
 
 int main() {
@@ -15,7 +16,7 @@ int main() {
 
 	while (cont)
 	{
-		cout << "Select menu item:" << endl << "0. Exit FilmBuff" << endl << "1. Display Current Preferences" << endl << "2. Search Movie" << endl << "3. Search Personnel" << endl << "4. Get Recommendations" << endl;
+		cout << "Select menu item:" << endl << "0. Exit FilmBuff" << endl << "1. Display Current Preferences" << endl << "2. Search Movie" << endl << "3. Search Personnel" << endl << "4. Get Recommendations" << endl << "5. Display Movie Graph" << endl;
 		cin >> option;
 		cin.ignore();
 
@@ -50,30 +51,35 @@ int main() {
 
 			vector<string> movies = db.searchMovies(search);
 
-			cout << "Please enter space separated list of movies you wish to add: ";
-			getline(cin, search);
+			if (movies.size() > 0) {
+				cout << "Please enter space separated list of movies you wish to add: ";
+				getline(cin, search);
 
-			for (int i = 0; i < search.length(); i++) {
-				if (search[i] == ' ') {
-					if (stoi(temp) - 1 < movies.size()) {
-						db.addPreferences(movies[stoi(temp) - 1]);
-					}
-					else {
-						cout << "List only contains " << movies.size() << " movies. Could not add movie #" << temp << "!" << endl;
+				for (int i = 0; i < search.length(); i++) {
+					if (search[i] == ' ') {
+						if (stoi(temp) - 1 < movies.size()) {
+							db.addPreferences(movies[stoi(temp) - 1]);
+						}
+						else {
+							cout << "List only contains " << movies.size() << " movies. Could not add movie #" << temp << "!" << endl;
+						}
+
+						temp = "";
+						continue;
 					}
 
-					temp = "";
-					continue;
+					temp += search[i];
 				}
 
-				temp += search[i];
-			}
-
-			if (stoi(temp) - 1 < movies.size()) {
-				db.addPreferences(movies[stoi(temp) - 1]);
+				if (stoi(temp) - 1 < movies.size()) {
+					db.addPreferences(movies[stoi(temp) - 1]);
+				}
+				else {
+					cout << "List only contains " << movies.size() << " movies. Could not add movie #" << temp << "!" << endl;
+				}
 			}
 			else {
-				cout << "List only contains " << movies.size() << " movies. Could not add movie #" << temp << "!" << endl;
+				cout << "No movies found containing this keyword!" << endl;
 			}
 
 			break;
@@ -82,35 +88,40 @@ int main() {
 		{
 			string temp = "";
 			
-			cout << "Please enter an actor to search for: ";
+			cout << "Please enter movie personnel to search for: ";
 			getline(cin, search);
 
 			vector<string> movies = db.searchPersonnel(search);
 
-			cout << "Please enter space separated list of movies you wish to add: ";
-			getline(cin, search);
+			if (movies.size() > 0) {
+				cout << "Please enter space separated list of movies you wish to add: ";
+				getline(cin, search);
 
-			for (int i = 0; i < search.length(); i++) {
-				if (search[i] == ' ') {
-					if (stoi(temp) - 1 < movies.size()) {
-						db.addPreferences(movies[stoi(temp) - 1]);
-					}
-					else {
-						cout << "List only contains " << movies.size() << " movies. Could not add movie #" << temp << "!" << endl;
+				for (int i = 0; i < search.length(); i++) {
+					if (search[i] == ' ') {
+						if (stoi(temp) - 1 < movies.size()) {
+							db.addPreferences(movies[stoi(temp) - 1]);
+						}
+						else {
+							cout << "List only contains " << movies.size() << " movies. Could not add movie #" << temp << "!" << endl;
+						}
+
+						temp = "";
+						continue;
 					}
 
-					temp = "";
-					continue;
+					temp += search[i];
 				}
 
-				temp += search[i];
-			}
-
-			if (stoi(temp) - 1 < movies.size()) {
-				db.addPreferences(movies[stoi(temp) - 1]);
+				if (stoi(temp) - 1 < movies.size()) {
+					db.addPreferences(movies[stoi(temp) - 1]);
+				}
+				else {
+					cout << "List only contains " << movies.size() << " movies. Could not add movie #" << temp << "!" << endl;
+				}
 			}
 			else {
-				cout << "List only contains " << movies.size() << " movies. Could not add movie #" << temp << "!" << endl;
+				cout << "No movies found containing this personnel!" << endl;
 			}
 
 			break;
@@ -125,6 +136,12 @@ int main() {
 			for (int i = 0; i < stoi(search); i++) {
 				db.displayMovie(recommendations[i], i + 1);
 			}
+
+			break;
+		}
+		case 5:
+		{
+			cout << "movie graph";
 
 			break;
 		}

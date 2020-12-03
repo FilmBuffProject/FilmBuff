@@ -1,2 +1,9 @@
-﻿  ProgramManager.cpp
+﻿  main.cpp
+C:\Users\becfl\Documents\Data Structures Final Project\FilmBuff\FilmBuff\main.cpp(5,10): warning C4067: unexpected tokens following preprocessor directive - expected a newline
+C:\Users\becfl\Documents\Data Structures Final Project\FilmBuff\FilmBuff\main.cpp(58,23): warning C4018: '<': signed/unsigned mismatch
+C:\Users\becfl\Documents\Data Structures Final Project\FilmBuff\FilmBuff\main.cpp(60,26): warning C4018: '<': signed/unsigned mismatch
+C:\Users\becfl\Documents\Data Structures Final Project\FilmBuff\FilmBuff\main.cpp(74,24): warning C4018: '<': signed/unsigned mismatch
+C:\Users\becfl\Documents\Data Structures Final Project\FilmBuff\FilmBuff\main.cpp(100,23): warning C4018: '<': signed/unsigned mismatch
+C:\Users\becfl\Documents\Data Structures Final Project\FilmBuff\FilmBuff\main.cpp(102,26): warning C4018: '<': signed/unsigned mismatch
+C:\Users\becfl\Documents\Data Structures Final Project\FilmBuff\FilmBuff\main.cpp(116,24): warning C4018: '<': signed/unsigned mismatch
   FilmBuff.vcxproj -> C:\Users\becfl\Documents\Data Structures Final Project\FilmBuff\FilmBuff\Debug\FilmBuff.exe

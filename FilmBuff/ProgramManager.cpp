@@ -352,13 +352,11 @@ vector<string> ProgramManager::searchMovies(const string& movieName) {
 		Movie m = i->second;
 
 		if (i->second.getTitle().find(movieName) != std::string::npos) {
-			displayMovie(i->first, results.size() + 1);
+			if (this->moviePreferences.find(i->first) == this->moviePreferences.end()) {
+				displayMovie(i->first, results.size() + 1);
 
-			/*cout << (results.size() + 1) << ". " << i->second.getTitle() << " (" << i->second.getYear() << ")" << endl;
-			cout << "Genre: " << i->second.getGenre() << endl;
-			cout << "Description: " << i->second.getDescription() << endl << endl;*/
-
-			results.push_back(i->first);
+				results.push_back(i->first);
+			}
 		}
 	}
 
@@ -372,7 +370,9 @@ vector<string> ProgramManager::searchPersonnel(const string& personnelName) {
 	for (auto i = this->Personnel.begin(); i != Personnel.end(); i++) {
 		if (personnelName == i->second) {
 			for (auto j = Personnel_to_Movies.at(i->first).begin(); j != Personnel_to_Movies.at(i->first).end(); j++) {
-				results.push_back(*j);
+				if (this->moviePreferences.find(*j) == this->moviePreferences.end()) {
+					results.push_back(*j);
+				}
 			}
 			
 			break;
@@ -390,9 +390,28 @@ vector<string> ProgramManager::searchPersonnel(const string& personnelName) {
 
 void ProgramManager::addPreferences(const string& movieID) {
 	auto inserted = this->moviePreferences.insert(movieID);
-	
+	bool added = false;
+
+	for (auto i = moviePreferences.begin(); i != moviePreferences.end(); i++) {
+		if (movieID == *i) {
+			continue;
+		}
+
+		vector<string> commonPersonnel;
+		set_intersection(Movie_to_Personnel[movieID].begin(), Movie_to_Personnel[movieID].end(), Movie_to_Personnel[*i].begin(), Movie_to_Personnel[*i].end(), std::back_inserter(commonPersonnel));
+
+		if (commonPersonnel.size() > 0) {
+			this->mGraph.insertEdge(movieID, *i, commonPersonnel.size());
+			added = true;
+		}
+	}
+
+	if (added == false) {
+		mGraph.insertVertex(movieID);
+	}
+
 	if (inserted.second == true) {
-		unordered_set<string> m = this->Movie_to_Personnel.at(movieID);
+		set<string> m = this->Movie_to_Personnel.at(movieID);
 
 		for (auto i = m.begin(); i != m.end(); i++) {
 			this->personnelPreferences[*i] += 1;
@@ -417,7 +436,7 @@ vector<string> ProgramManager::findRecommendations() const
 	//fills recommendations map with total_personnel_weight
 	for(auto iter = personnelPreferences.begin(); iter != personnelPreferences.end(); ++iter)//uses each personnel to recommend movies
 	{
-		const unordered_set<string>& recommendedMovies = Personnel_to_Movies.at(iter->first);
+		const set<string>& recommendedMovies = Personnel_to_Movies.at(iter->first);
 
 		for(auto recommendedIter = recommendedMovies.begin(); recommendedIter != recommendedMovies.end(); ++recommendedIter)
 		{
