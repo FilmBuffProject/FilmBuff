@@ -15,7 +15,7 @@ int main() {
 
 	while (cont)
 	{
-		cout << "Select menu item:" << endl << "0. Exit FilmBuff" << endl << "1. Search Movie" << endl << "2. Search Personnel" << endl;
+		cout << "Select menu item:" << endl << "0. Exit FilmBuff" << endl << "1. Display Current Preferences" << endl << "2. Search Movie" << endl << "3. Search Personnel" << endl << "4. Get Recommendations" << endl;
 		cin >> option;
 		cin.ignore();
 
@@ -35,7 +35,13 @@ int main() {
 
 			break;
 		}
-		case 1: 
+		case 1:
+		{
+			db.displayPreferences();
+
+			break;
+		}
+		case 2: 
 		{		
 			string temp = "";
 			
@@ -72,7 +78,7 @@ int main() {
 
 			break;
 		}
-		case 2: 
+		case 3: 
 		{
 			string temp = "";
 			
@@ -105,6 +111,19 @@ int main() {
 			}
 			else {
 				cout << "List only contains " << movies.size() << " movies. Could not add movie #" << temp << "!" << endl;
+			}
+
+			break;
+		}
+		case 4: 
+		{	
+			cout << "How many recommendations would you like? ";
+			getline(cin, search);
+
+			vector<string> recommendations = db.findRecommendations();
+
+			for (int i = 0; i < stoi(search); i++) {
+				db.displayMovie(recommendations[i], i + 1);
 			}
 
 			break;

@@ -352,9 +352,11 @@ vector<string> ProgramManager::searchMovies(const string& movieName) {
 		Movie m = i->second;
 
 		if (i->second.getTitle().find(movieName) != std::string::npos) {
-			cout << (results.size() + 1) << ". " << i->second.getTitle() << " (" << i->second.getYear() << ")" << endl;
+			displayMovie(i->first, results.size() + 1);
+
+			/*cout << (results.size() + 1) << ". " << i->second.getTitle() << " (" << i->second.getYear() << ")" << endl;
 			cout << "Genre: " << i->second.getGenre() << endl;
-			cout << "Description: " << i->second.getDescription() << endl << endl;
+			cout << "Description: " << i->second.getDescription() << endl << endl;*/
 
 			results.push_back(i->first);
 		}
@@ -378,9 +380,7 @@ vector<string> ProgramManager::searchPersonnel(const string& personnelName) {
 	}
 
 	for (auto i = results.begin(); i != results.end(); i++) {
-		cout << count << ". " << this->Movies.at(*i).getTitle() << " (" << this->Movies.at(*i).getYear() << ")" << endl;
-		cout << "Genre: " << this->Movies.at(*i).getGenre() << endl;
-		cout << "Description: " << this->Movies.at(*i).getDescription() << endl << endl;
+		displayMovie(*i, count);
 
 		count++;
 	}
@@ -456,4 +456,20 @@ vector<string> ProgramManager::findRecommendations() const
 		});
 
 	return output;
+}
+
+void ProgramManager::displayPreferences() const {
+	int count = 1;
+
+	for (auto i = this->moviePreferences.begin(); i != this->moviePreferences.end(); i++) {
+		displayMovie(*i, count);
+
+		count++;
+	}
+}
+
+void ProgramManager::displayMovie(const string& movieID, int count) const {
+	cout << count << ". " << this->Movies.at(movieID).getTitle() << " (" << this->Movies.at(movieID).getYear() << ")" << endl;
+	cout << "Genre: " << this->Movies.at(movieID).getGenre() << endl;
+	cout << "Description: " << this->Movies.at(movieID).getDescription() << endl << endl;
 }

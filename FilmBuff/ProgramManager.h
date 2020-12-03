@@ -46,6 +46,8 @@ public:
 	void addConnection(const string& movieID, const string& personnelID);
 	void addPreferences(const string& movieID);
 	vector<string> findRecommendations() const;
+	void displayPreferences() const;
+	void displayMovie(const string& movieID, int count) const;
 };
 
 #endif
