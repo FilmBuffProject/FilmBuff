@@ -306,14 +306,16 @@ bool ProgramManager::doesPersonnelExist(const string& movieID) const
 	return Personnel.find(movieID) != Personnel.end();
 }
 
-vector<string> ProgramManager::searchMovies(const string& query) {
+vector<string> ProgramManager::searchMovies(string& query) {
 	vector<string> results;
 	queue<string> keywords;
 
 	stringstream keywords_stream(query);
 	string temp_keyword;
 
-	while(getline(keywords_stream, temp_keyword, ' '))
+	transform(query.begin(), query.end(), query.begin(), ::tolower);//transforms the query into a lowercase version of itself
+
+	while(getline(keywords_stream, temp_keyword, ' '))//separates the query into space-delimited keywords and store them into a queue
 	{
 		keywords.push(temp_keyword);
 	}
@@ -323,7 +325,9 @@ vector<string> ProgramManager::searchMovies(const string& query) {
 		string movieTitle = m.getTitle();
 		bool contains_all_keywords = true;
 
-		while(contains_all_keywords && keywords.size() != 0)
+		transform(movieTitle.begin(), movieTitle.end(), movieTitle.begin(), ::tolower);//transforms the movieTitle in to lowercase version of itself
+
+		while(contains_all_keywords && keywords.size() != 0)//
 		{
 			contains_all_keywords = movieTitle.find(keywords.front()) != string::npos;
 			keywords.pop();

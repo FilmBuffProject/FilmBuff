@@ -1,2 +1,11 @@
-﻿  ProgramManager.cpp
+﻿  main.cpp
+C:\Users\KnockCloud\Documents\GitHub\FilmBuff\FilmBuff\main.cpp(5,10): warning C4067: unexpected tokens following preprocessor directive - expected a newline
+C:\Users\KnockCloud\Documents\GitHub\FilmBuff\FilmBuff\main.cpp(58,23): warning C4018: '<': signed/unsigned mismatch
+C:\Users\KnockCloud\Documents\GitHub\FilmBuff\FilmBuff\main.cpp(60,26): warning C4018: '<': signed/unsigned mismatch
+C:\Users\KnockCloud\Documents\GitHub\FilmBuff\FilmBuff\main.cpp(74,24): warning C4018: '<': signed/unsigned mismatch
+C:\Users\KnockCloud\Documents\GitHub\FilmBuff\FilmBuff\main.cpp(100,23): warning C4018: '<': signed/unsigned mismatch
+C:\Users\KnockCloud\Documents\GitHub\FilmBuff\FilmBuff\main.cpp(102,26): warning C4018: '<': signed/unsigned mismatch
+C:\Users\KnockCloud\Documents\GitHub\FilmBuff\FilmBuff\main.cpp(116,24): warning C4018: '<': signed/unsigned mismatch
+  ProgramManager.cpp
+  Generating Code...
   FilmBuff.vcxproj -> C:\Users\KnockCloud\Documents\GitHub\FilmBuff\FilmBuff\Debug\FilmBuff.exe
