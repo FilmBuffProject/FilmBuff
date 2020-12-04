@@ -52,7 +52,7 @@ int main() {
 			vector<string> movies = db.searchMovies(search);
 
 			if (movies.size() > 0) {
-				cout << "Please enter space separated list of movies you wish to add: ";
+				cout << "Please enter space separated list of movies you wish to add (ex: 3 5 12 6): ";
 				getline(cin, search);
 
 				for (int i = 0; i < search.length(); i++) {
@@ -93,13 +93,13 @@ int main() {
 		{
 			string temp = "";
 			
-			cout << "Please enter movie personnel to search for: ";
+			cout << "Please enter movie personnel to search for (e.g. actors, directors, producers, etc): ";
 			getline(cin, search);
 
 			vector<string> movies = db.searchPersonnel(search);
 
 			if (movies.size() > 0) {
-				cout << "Please enter space separated list of movies you wish to add: ";
+				cout << "Please enter space separated list of movies you wish to add (ex: 3 5 12 6): ";
 				getline(cin, search);
 
 				for (int i = 0; i < search.length(); i++) {
