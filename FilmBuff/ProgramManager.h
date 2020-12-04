@@ -32,7 +32,7 @@ public:
 	//Constructors
 	ProgramManager();
 
-	//functions
+	//Functions
 	void initialize();
 	void loadMovies();
 	void loadPersonnel();

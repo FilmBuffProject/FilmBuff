@@ -14,9 +14,10 @@ class movieGraph
 private:
     unordered_map<string, set<pair<string, int>>> graph;
 public:
-
-
+    //Constructors
     movieGraph();
+
+    //Functions
     void insertEdge(string from, string to, int weight);
     void insertVertex(string from);
     int getWeight(string from, string to);
