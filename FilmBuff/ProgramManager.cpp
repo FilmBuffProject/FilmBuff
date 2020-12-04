@@ -310,13 +310,15 @@ vector<string> ProgramManager::searchMovies(string& query) {
 	vector<string> results;
 	queue<string> keywords;
 
+	transform(query.begin(), query.end(), query.begin(), ::tolower);
 	stringstream keywords_stream(query);
 	string temp_keyword;
 
-	transform(query.begin(), query.end(), query.begin(), ::tolower);//transforms the query into a lowercase version of itself
+	//transforms the query into a lowercase version of itself
 
 	while(getline(keywords_stream, temp_keyword, ' '))//separates the query into space-delimited keywords and store them into a queue
 	{
+		cout << temp_keyword << endl;
 		keywords.push(temp_keyword);
 	}
 
@@ -324,13 +326,14 @@ vector<string> ProgramManager::searchMovies(string& query) {
 		Movie m = i->second;
 		string movieTitle = m.getTitle();
 		bool contains_all_keywords = true;
+		auto temp_keywords = keywords;
 
 		transform(movieTitle.begin(), movieTitle.end(), movieTitle.begin(), ::tolower);//transforms the movieTitle in to lowercase version of itself
 
-		while(contains_all_keywords && keywords.size() != 0)//
+		while(contains_all_keywords && temp_keywords.size() != 0)//
 		{
-			contains_all_keywords = movieTitle.find(keywords.front()) != string::npos;
-			keywords.pop();
+			contains_all_keywords = movieTitle.find(temp_keywords.front()) != string::npos;
+			temp_keywords.pop();
 		}
 
 		if (contains_all_keywords) {
