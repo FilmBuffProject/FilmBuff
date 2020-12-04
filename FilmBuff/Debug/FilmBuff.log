@@ -1,14 +1,15 @@
-﻿  ProgramManager.cpp
-  main.cpp
-C:\Users\becfl\Documents\Data Structures Final Project\FilmBuff\FilmBuff\main.cpp(5,10): warning C4067: unexpected tokens following preprocessor directive - expected a newline
-C:\Users\becfl\Documents\Data Structures Final Project\FilmBuff\FilmBuff\main.cpp(58,23): warning C4018: '<': signed/unsigned mismatch
-C:\Users\becfl\Documents\Data Structures Final Project\FilmBuff\FilmBuff\main.cpp(60,26): warning C4018: '<': signed/unsigned mismatch
-C:\Users\becfl\Documents\Data Structures Final Project\FilmBuff\FilmBuff\main.cpp(75,25): warning C4018: '<': signed/unsigned mismatch
-C:\Users\becfl\Documents\Data Structures Final Project\FilmBuff\FilmBuff\main.cpp(105,23): warning C4018: '<': signed/unsigned mismatch
-C:\Users\becfl\Documents\Data Structures Final Project\FilmBuff\FilmBuff\main.cpp(107,26): warning C4018: '<': signed/unsigned mismatch
-C:\Users\becfl\Documents\Data Structures Final Project\FilmBuff\FilmBuff\main.cpp(122,25): warning C4018: '<': signed/unsigned mismatch
-C:\Users\becfl\Documents\Data Structures Final Project\FilmBuff\FilmBuff\main.cpp(82,35): warning C4101: 'e': unreferenced local variable
-C:\Users\becfl\Documents\Data Structures Final Project\FilmBuff\FilmBuff\main.cpp(129,35): warning C4101: 'e': unreferenced local variable
-  movieGraph.cpp
-  Generating Code...
-  FilmBuff.vcxproj -> C:\Users\becfl\Documents\Data Structures Final Project\FilmBuff\FilmBuff\Debug\FilmBuff.exe
+﻿  main.cpp
+C:\Users\KnockCloud\Documents\GitHub\FilmBuff\FilmBuff\main.cpp(5,10): warning C4067: unexpected tokens following preprocessor directive - expected a newline
+C:\Users\KnockCloud\Documents\GitHub\FilmBuff\FilmBuff\main.cpp(58,23): warning C4018: '<': signed/unsigned mismatch
+C:\Users\KnockCloud\Documents\GitHub\FilmBuff\FilmBuff\main.cpp(60,26): warning C4018: '<': signed/unsigned mismatch
+C:\Users\KnockCloud\Documents\GitHub\FilmBuff\FilmBuff\main.cpp(75,25): warning C4018: '<': signed/unsigned mismatch
+C:\Users\KnockCloud\Documents\GitHub\FilmBuff\FilmBuff\main.cpp(105,23): warning C4018: '<': signed/unsigned mismatch
+C:\Users\KnockCloud\Documents\GitHub\FilmBuff\FilmBuff\main.cpp(107,26): warning C4018: '<': signed/unsigned mismatch
+C:\Users\KnockCloud\Documents\GitHub\FilmBuff\FilmBuff\main.cpp(122,25): warning C4018: '<': signed/unsigned mismatch
+C:\Users\KnockCloud\Documents\GitHub\FilmBuff\FilmBuff\main.cpp(179,22): warning C4018: '<': signed/unsigned mismatch
+C:\Users\KnockCloud\Documents\GitHub\FilmBuff\FilmBuff\main.cpp(181,25): warning C4018: '<': signed/unsigned mismatch
+C:\Users\KnockCloud\Documents\GitHub\FilmBuff\FilmBuff\main.cpp(196,24): warning C4018: '<': signed/unsigned mismatch
+C:\Users\KnockCloud\Documents\GitHub\FilmBuff\FilmBuff\main.cpp(82,35): warning C4101: 'e': unreferenced local variable
+C:\Users\KnockCloud\Documents\GitHub\FilmBuff\FilmBuff\main.cpp(129,35): warning C4101: 'e': unreferenced local variable
+C:\Users\KnockCloud\Documents\GitHub\FilmBuff\FilmBuff\main.cpp(203,34): warning C4101: 'e': unreferenced local variable
+  FilmBuff.vcxproj -> C:\Users\KnockCloud\Documents\GitHub\FilmBuff\FilmBuff\Debug\FilmBuff.exe

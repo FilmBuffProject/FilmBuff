@@ -170,6 +170,41 @@ int main() {
 				db.displayMovie(recommendations[i], i + 1);
 			}
 
+			//adapted code to add recommendations to preference
+			string temp = "";
+			if(recommendations.size() > 0) {
+				cout << "Please enter space separated list of recommendations you wish to add (ex: 3 5 12 6): ";
+				getline(cin, search);
+
+				for(int i = 0; i < search.length(); i++) {
+					if(search[i] == ' ') {
+						if(stoi(temp) - 1 < recommendations.size()) {
+							db.addPreferences(recommendations[stoi(temp) - 1]);
+						}
+						else {
+							cout << "List only contains " << recommendations.size() << " recommendations. Could not add recommendation #" << temp << "!" << endl;
+						}
+
+						temp = "";
+						continue;
+					}
+
+					temp += search[i];
+				}
+
+				try {
+					if(stoi(temp) - 1 < recommendations.size()) {
+						db.addPreferences(recommendations[stoi(temp) - 1]);
+					}
+					else {
+						cout << "List only contains " << recommendations.size() << " recommendations. Could not add recommendation #" << temp << "!" << endl;
+					}
+				}
+				catch(std::invalid_argument& e) {
+					cout << "Please enter valid number!" << endl;
+				}
+			}
+
 			break;
 		}
 		case 5:
