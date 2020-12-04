@@ -40,7 +40,7 @@ public:
 	void loadPreferred();
 	void writePreferred();
 	vector<string> searchMovies(string& query);
-	vector<string> searchPersonnel(const string& personnelName);
+	vector<string> searchPersonnel(string& query);
 	bool doesMovieExist(const string& movieID) const;
 	bool doesPersonnelExist(const string& personnelID) const;
 	void addMovie(const string& movieID, const Movie& movie);

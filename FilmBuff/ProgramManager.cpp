@@ -348,13 +348,38 @@ vector<string> ProgramManager::searchMovies(string& query) {
 	return results;
 }
 
-vector<string> ProgramManager::searchPersonnel(const string& personnelName) {
+vector<string> ProgramManager::searchPersonnel(string& query) {
 	vector<string> results;
 	int count = 1;
+	queue<string> keywords;
+
+	transform(query.begin(), query.end(), query.begin(), ::tolower);
+	stringstream keywords_stream(query);
+	string temp_keyword;
+
+	//transforms the query into a lowercase version of itself
+
+	while(getline(keywords_stream, temp_keyword, ' '))//separates the query into space-delimited keywords and store them into a queue
+	{
+		keywords.push(temp_keyword);
+	}
 
 	for (auto i = this->Personnel.begin(); i != Personnel.end(); i++) {
-		if (personnelName == i->second) {
-			for (auto j = Personnel_to_Movies.at(i->first).begin(); j != Personnel_to_Movies.at(i->first).end(); j++) {
+		string personnel_ID = i->first, personnelName = i->second;
+
+		bool contains_all_keywords = true;
+		auto temp_keywords = keywords;
+
+		transform(personnelName.begin(), personnelName.end(), personnelName.begin(), ::tolower);//transforms the movieTitle in to lowercase version of itself
+
+		while(contains_all_keywords && temp_keywords.size() != 0)//
+		{
+			contains_all_keywords = personnelName.find(temp_keywords.front()) != string::npos;
+			temp_keywords.pop();
+		}
+
+		if (contains_all_keywords) {
+			for (auto j = Personnel_to_Movies.at(personnel_ID).begin(); j != Personnel_to_Movies.at(personnel_ID).end(); j++) {
 				if (this->moviePreferences.find(*j) == this->moviePreferences.end()) {
 					results.push_back(*j);
 				}
