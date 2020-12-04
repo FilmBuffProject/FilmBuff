@@ -50,6 +50,9 @@ public:
 	vector<string> findRecommendations(double k0, double k1) const;
 	void displayPreferences() const;
 	void displayMovie(const string& movieID, int count) const;
+	void groupMovies();
+	void bfs(string src, set<string>& visited, int& num);
+	void dfs(string src) const;
 };
 
 #endif

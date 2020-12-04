@@ -453,3 +453,69 @@ void ProgramManager::displayMovie(const string& movieID, int count) const {
 	cout << "Genre: " << this->Movies.at(movieID).getGenre() << endl;
 	cout << "Description: " << this->Movies.at(movieID).getDescription() << endl << endl;
 }
+
+void ProgramManager::groupMovies() {
+	set<string> visited;
+	int count = 1;
+
+	for (auto i = this->moviePreferences.begin(); i != this->moviePreferences.end(); i++) {
+		if (visited.find(*i) == visited.end()) {
+			bfs(*i, visited, count);
+		}
+	}
+}
+
+void ProgramManager::bfs(string src, set<string>& visited, int& num) {
+	queue<string> q;
+	int count = 1;
+
+	q.push(src);
+	auto result = visited.insert(src);
+
+	if (result.second == true) {
+		cout << "Group " << num << ": " << endl;
+		num++;
+	}
+
+	while (!q.empty()) {
+		string temp = q.front();
+		
+		cout << Movies[temp].getTitle() << endl;
+		count++;
+
+		q.pop();
+
+		for (pair<string, int> n : this->mGraph.getAdjacent(temp)) {
+			if (visited.find(n.first) == visited.end()) {
+				visited.insert(n.first);
+				q.push(n.first);
+			}
+		}
+	}
+
+	if (result.second == true) {
+		cout << endl;
+	}
+}
+
+/*void ProgramManager::dfs(string src) const {
+	stack<string> s;
+	set<string> visited;
+
+	s.push(src);
+	visited.insert(src);
+
+	while (!s.empty()) {
+		string temp = s.top();
+		cout << temp << " ";
+		s.pop();
+
+		for (pair<string, int> n : this->graph.at(temp)) {
+
+			if (visited.find(n.first) == visited.end()) {
+				visited.insert(n.first);
+				s.push(n.first);
+			}
+		}
+	}
+}*/

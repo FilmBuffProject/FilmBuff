@@ -16,7 +16,7 @@ int main() {
 
 	while (cont)
 	{
-		cout << "Select menu item:" << endl << "0. Exit FilmBuff" << endl << "1. Display Current Preferences" << endl << "2. Search Movie" << endl << "3. Search Personnel" << endl << "4. Get Recommendations" << endl << "5. Display Movie Graph" << endl;
+		cout << "Select menu item:" << endl << "0. Exit FilmBuff" << endl << "1. Display Current Preferences" << endl << "2. Search Movie" << endl << "3. Search Personnel" << endl << "4. Get Recommendations" << endl << "5. Group Movies" << endl;
 		cin >> option;
 		cin.ignore();
 
@@ -164,7 +164,7 @@ int main() {
 		}
 		case 5:
 		{
-			cout << "movie graph";
+			db.groupMovies();
 
 			break;
 		}
