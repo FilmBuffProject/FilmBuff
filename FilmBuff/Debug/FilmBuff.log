@@ -1,2 +1,11 @@
-﻿  ProgramManager.cpp
+﻿  main.cpp
+C:\Users\becfl\Documents\Data Structures Final Project\FilmBuff\FilmBuff\main.cpp(5,10): warning C4067: unexpected tokens following preprocessor directive - expected a newline
+C:\Users\becfl\Documents\Data Structures Final Project\FilmBuff\FilmBuff\main.cpp(58,23): warning C4018: '<': signed/unsigned mismatch
+C:\Users\becfl\Documents\Data Structures Final Project\FilmBuff\FilmBuff\main.cpp(60,26): warning C4018: '<': signed/unsigned mismatch
+C:\Users\becfl\Documents\Data Structures Final Project\FilmBuff\FilmBuff\main.cpp(75,25): warning C4018: '<': signed/unsigned mismatch
+C:\Users\becfl\Documents\Data Structures Final Project\FilmBuff\FilmBuff\main.cpp(105,23): warning C4018: '<': signed/unsigned mismatch
+C:\Users\becfl\Documents\Data Structures Final Project\FilmBuff\FilmBuff\main.cpp(107,26): warning C4018: '<': signed/unsigned mismatch
+C:\Users\becfl\Documents\Data Structures Final Project\FilmBuff\FilmBuff\main.cpp(122,25): warning C4018: '<': signed/unsigned mismatch
+C:\Users\becfl\Documents\Data Structures Final Project\FilmBuff\FilmBuff\main.cpp(82,35): warning C4101: 'e': unreferenced local variable
+C:\Users\becfl\Documents\Data Structures Final Project\FilmBuff\FilmBuff\main.cpp(129,35): warning C4101: 'e': unreferenced local variable
   FilmBuff.vcxproj -> C:\Users\becfl\Documents\Data Structures Final Project\FilmBuff\FilmBuff\Debug\FilmBuff.exe

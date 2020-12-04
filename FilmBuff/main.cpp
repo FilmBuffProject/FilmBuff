@@ -71,11 +71,16 @@ int main() {
 					temp += search[i];
 				}
 
-				if (stoi(temp) - 1 < movies.size()) {
-					db.addPreferences(movies[stoi(temp) - 1]);
+				try {
+					if (stoi(temp) - 1 < movies.size()) {
+						db.addPreferences(movies[stoi(temp) - 1]);
+					}
+					else {
+						cout << "List only contains " << movies.size() << " movies. Could not add movie #" << temp << "!" << endl;
+					}
 				}
-				else {
-					cout << "List only contains " << movies.size() << " movies. Could not add movie #" << temp << "!" << endl;
+				catch (std::invalid_argument& e) {
+					cout << "Please enter valid number!" << endl;
 				}
 			}
 			else {
@@ -113,11 +118,16 @@ int main() {
 					temp += search[i];
 				}
 
-				if (stoi(temp) - 1 < movies.size()) {
-					db.addPreferences(movies[stoi(temp) - 1]);
+				try {
+					if (stoi(temp) - 1 < movies.size()) {
+						db.addPreferences(movies[stoi(temp) - 1]);
+					}
+					else {
+						cout << "List only contains " << movies.size() << " movies. Could not add movie #" << temp << "!" << endl;
+					}
 				}
-				else {
-					cout << "List only contains " << movies.size() << " movies. Could not add movie #" << temp << "!" << endl;
+				catch (std::invalid_argument& e) {
+					cout << "Please enter valid number!" << endl;
 				}
 			}
 			else {
