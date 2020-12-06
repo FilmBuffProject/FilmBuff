@@ -52,7 +52,7 @@ int main() {
 			vector<string> movies = db.searchMovies(search);
 
 			if (movies.size() > 0) {
-				cout << "Please enter space separated list of movies you wish to add: ";
+				cout << "Please enter space separated list of movies you wish to add (ex: 3 5 12 6): ";
 				getline(cin, search);
 
 				for (int i = 0; i < search.length(); i++) {
@@ -93,13 +93,13 @@ int main() {
 		{
 			string temp = "";
 			
-			cout << "Please enter movie personnel to search for: ";
+			cout << "Please enter movie personnel to search for (e.g. actors, directors, producers, etc): ";
 			getline(cin, search);
 
 			vector<string> movies = db.searchPersonnel(search);
 
 			if (movies.size() > 0) {
-				cout << "Please enter space separated list of movies you wish to add: ";
+				cout << "Please enter space separated list of movies you wish to add (ex: 3 5 12 6): ";
 				getline(cin, search);
 
 				for (int i = 0; i < search.length(); i++) {
@@ -168,6 +168,41 @@ int main() {
 
 			for (int i = 0; i < stoi(search); i++) {
 				db.displayMovie(recommendations[i], i + 1);
+			}
+
+			//adapted code to add recommendations to preference
+			string temp = "";
+			if(recommendations.size() > 0) {
+				cout << "Please enter space separated list of recommendations you wish to add (ex: 3 5 12 6): ";
+				getline(cin, search);
+
+				for(int i = 0; i < search.length(); i++) {
+					if(search[i] == ' ') {
+						if(stoi(temp) - 1 < recommendations.size()) {
+							db.addPreferences(recommendations[stoi(temp) - 1]);
+						}
+						else {
+							cout << "List only contains " << recommendations.size() << " recommendations. Could not add recommendation #" << temp << "!" << endl;
+						}
+
+						temp = "";
+						continue;
+					}
+
+					temp += search[i];
+				}
+
+				try {
+					if(stoi(temp) - 1 < recommendations.size()) {
+						db.addPreferences(recommendations[stoi(temp) - 1]);
+					}
+					else {
+						cout << "List only contains " << recommendations.size() << " recommendations. Could not add recommendation #" << temp << "!" << endl;
+					}
+				}
+				catch(std::invalid_argument& e) {
+					cout << "Please enter valid number!" << endl;
+				}
 			}
 
 			break;
