@@ -17,10 +17,14 @@ ProgramManager::ProgramManager()
 
 void ProgramManager::initialize()
 {
+	cout << "Initializing..." << endl;
+
 	loadMovies();
 	loadPersonnel();
 	loadPrincipals();
 	loadPreferred();
+
+	cout << endl;
 }
 
 void ProgramManager::loadMovies()
