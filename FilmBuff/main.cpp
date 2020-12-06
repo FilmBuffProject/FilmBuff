@@ -38,6 +38,7 @@ int main() {
 		}
 		case 1:
 		{
+			//Displays Current Movie Preferences
 			db.displayPreferences();
 
 			break;
